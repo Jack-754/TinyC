@@ -14,23 +14,25 @@
  
 space	                [ \t\n]
 spaces	                {space}+
-identifier_nondigit	    [a-zA-Z_]
-digit	                [0-9]
-sign                    [+-]
 number	                \+?\-?{digits}
 
 //IDENTIFIERS
+identifier_nondigit	    [a-zA-Z_]
+digit	                [0-9]
+identifier              {identifier_nondigit}[{identifier_nondigit}{digit}]*
 
-c_char                  [{escape_sequence}]|[^'\\]
-c_char_sequence         {c_char}+
+
 
 //CONSTANTS
 nonzero_digit	        [1-9]
-digit_sequence          {nonzero_digit}{digit}*
-integer_constant        {digit_sequence}
-floating_constant       {fractional_constant}{exponent_part}?|{digit_sequence}{exponent_part}
-fractional_constant     {digit_sequence}?.{digit_sequence}|{digit_sequence}.
-exponent_part           e{sign}?{digit_sequence}|E{sign}?{digit_sequence}
+digit_sequence          {digit}*
+sign                    [+-]
+integer_constant        {nonzero_digit}{digit_sequence}
+floating_constant       ({fractional_constant}{exponent_part}?)|({digit_sequence}{exponent_part})
+fractional_constant     ({digit_sequence}?.{digit_sequence})|({digit_sequence}.)
+exponent_part           (e{sign}?{digit_sequence})|(E{sign}?{digit_sequence})
+enumeration_constant    {identifier}
+character_constant      '{c_char_sequence}'
 
 
 single_quote_escaped    "\'"
@@ -48,8 +50,15 @@ escape_sequence         [{single_quote_escaped}{double_quote_escaped}{question_e
 // check above line
 single_quote            "'"
 double_quote            """
+c_char                  [^'\\\\n]|[{escape_sequence}]
+c_char_sequence         {c_char}+
 
 //STRING LITERALS
+string_literal          "{s_char_sequence}?"
+s_char_sequence         {s_char}+
+s_char                  [^'\\\\n]|[{escape_sequence}]
+
+
 
 %%
 
