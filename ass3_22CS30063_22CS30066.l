@@ -16,11 +16,22 @@ space	                [ \t\n]
 spaces	                {space}+
 identifier_nondigit	    [a-zA-Z_]
 digit	                [0-9]
-digit_sequence          {digit}+
-nonzero_digit	        [1-9]
-digits	                {digit}+
 sign                    [+-]
 number	                \+?\-?{digits}
+
+//IDENTIFIERS
+
+c_char                  [{escape_sequence}]|[^'\\]
+c_char_sequence         {c_char}+
+
+//CONSTANTS
+nonzero_digit	        [1-9]
+digit_sequence          {nonzero_digit}{digit}*
+integer_constant        {digit_sequence}
+floating_constant       {fractional_constant}{exponent_part}?|{digit_sequence}{exponent_part}
+fractional_constant     {digit_sequence}?.{digit_sequence}|{digit_sequence}.
+exponent_part           e{sign}?{digit_sequence}|E{sign}?{digit_sequence}
+
 
 single_quote_escaped    "\'"
 double_quote_escaped    "\""
@@ -38,8 +49,7 @@ escape_sequence         [{single_quote_escaped}{double_quote_escaped}{question_e
 single_quote            "'"
 double_quote            """
 
-c_char                  [^\'\\{escape_sequence}]
-c_char_sequence         {c_char}+
+//STRING LITERALS
 
 %%
 
@@ -80,6 +90,41 @@ c_char_sequence         {c_char}+
 "else"          {return KEYWORD;}
 "register"      {return KEYWORD;}
 "union"         {return KEYWORD;}
+
+"++"            {return UNARY_INCREMENT;}
+"--"            {return UNARY_DECREMENT;}
+"&"             {return BITWISE_AND;}
+"|"             {return BITWISE_OR;}
+"^"             {return BITWISE_XOR;}
+"<<"            {return LEFT_SHIFT;}
+">>"            {return RIGHT_SHIFT;}
+"<="            {return LESS_THAN_OR_EQUAL_TO;}
+">="            {return GREATER_THAN_OR_EQUAL_TO;}
+"=="            {return EQUALITY_TEST;}
+"!="            {return INEQUALITY_TEST;}
+"&&"            {return LOGICAL_AND;}
+"||"            {return LOGICAL_OR;}
+"+"             {return ADDITION;}
+"-"             {return SUBTRACTION;}
+"*"             {return MULTIPLICATION;}
+"/"             {return DIVISION;}
+"%"             {return MODULUS;}
+"="             {return ASSIGNMENT;}
+"("             {return LEFT_PARENTHESIS;}
+")"             {return RIGHT_PARENTHESIS;}
+"{"             {return LEFT_BRACE;}
+"}"             {return RIGHT_BRACE;}
+"["             {return LEFT_BRACKET;}
+"]"             {return RIGHT_BRACKET;}
+";"             {return SEMICOLON;}
+","             {return COMMA;}
+"."             {return DOT;}
+"!"             {return LOGICAL_NOT;}
+"~"             {return BITWISE_NOT;}
+"?"             {return QUESTION_MARK;}
+":"             {return COLON;}
+"#"             {return HASH;}
+
 
 
 
