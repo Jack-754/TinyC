@@ -12,9 +12,8 @@
 %}
 
  
-space	                [ \t\n]
-spaces	                {space}+
-number	                \+?\-?{digits}
+space	                [ \t]+
+newline                 \n
 
 //IDENTIFIERS
 identifier_nondigit	    [a-zA-Z_]
@@ -30,33 +29,33 @@ sign                    [+-]
 integer_constant        {nonzero_digit}{digit_sequence}
 floating_constant       ({fractional_constant}{exponent_part}?)|({digit_sequence}{exponent_part})
 fractional_constant     ({digit_sequence}?.{digit_sequence})|({digit_sequence}.)
-exponent_part           (e{sign}?{digit_sequence})|(E{sign}?{digit_sequence})
+exponent_part           [eE]{sign}?{digit_sequence}
 enumeration_constant    {identifier}
-character_constant      '{c_char_sequence}'
+character_constant      \'{c_char_sequence}\'
 
 
-single_quote_escaped    "\'"
-double_quote_escaped    "\""
-question_escaped        "\?"
-backslash_escaped       "\\"
-a_escaped               "\a"
-b_escaped               "\b"
-f_escaped               "\f"
-newline                 "\n"
-r_escaped               "\r"
-tab                     "\t"
-v_escaped               "\v"
+single_quote_escaped    "\\\'"
+double_quote_escaped    "\\\""
+question_escaped        "\\\?"
+backslash_escaped       "\\\\"
+a_escaped               "\\a"
+b_escaped               "\\b"
+f_escaped               "\\f"
+newline                 "\\n"
+r_escaped               "\\r"
+tab                     "\\t"
+v_escaped               "\\v"
 escape_sequence         [{single_quote_escaped}{double_quote_escaped}{question_escaped}{backslash_escaped}{a_escaped}{b_escaped}{f_escaped}{newline}{r_escaped}{tab}{v_escaped}]
 // check above line
 single_quote            "'"
 double_quote            """
-c_char                  [^'\\\\n]|[{escape_sequence}]
+c_char                  [^\'\n\\]|[{escape_sequence}]
 c_char_sequence         {c_char}+
 
 //STRING LITERALS
-string_literal          "{s_char_sequence}?"
+string_literal          \"{s_char_sequence}?\"
 s_char_sequence         {s_char}+
-s_char                  [^'\\\\n]|[{escape_sequence}]
+s_char                  [^\"\n\\]|[{escape_sequence}]
 
 
 
@@ -81,15 +80,15 @@ s_char                  [^'\\\\n]|[{escape_sequence}]
 "const"         {return KEYWORD;}
 "goto"          {return KEYWORD;}
 "sizeof"        {return KEYWORD;}
-"Bool"          {return KEYWORD;}
+"_Bool"         {return KEYWORD;}
 "continue"      {return KEYWORD;}
 "if"            {return KEYWORD;}
 "static"        {return KEYWORD;}
-"Complex"       {return KEYWORD;}
+"_Complex"      {return KEYWORD;}
 "default"       {return KEYWORD;}
 "inline"        {return KEYWORD;}
 "struct"        {return KEYWORD;}
-"Imaginary"     {return KEYWORD;}
+"_Imaginary"    {return KEYWORD;}
 "do"            {return KEYWORD;}
 "int"           {return KEYWORD;}
 "switch"        {return KEYWORD;}
@@ -99,6 +98,13 @@ s_char                  [^'\\\\n]|[{escape_sequence}]
 "else"          {return KEYWORD;}
 "register"      {return KEYWORD;}
 "union"         {return KEYWORD;}
+
+{identifier}            {return IDENTIFIER;}
+{integer_constant}      {return INTEGER_CONSTANT;}
+{floating_constant}     {return FLOATING_CONSTANT;}
+{enumeration_constant}  {return ENUMERATION_CONSTANT;}
+{character_constant}    {return CHARACTER_CONSTANT;}
+{string_literal}        {return STRING_LITERAL;}
 
 "++"            {return UNARY_INCREMENT;}
 "--"            {return UNARY_DECREMENT;}
@@ -133,21 +139,5 @@ s_char                  [^'\\\\n]|[{escape_sequence}]
 "?"             {return QUESTION_MARK;}
 ":"             {return COLON;}
 "#"             {return HASH;}
-
-
-
-
-
-{spaces}	{ }
-{number}	{ return(NUM); }
-"("		{ return(LP); }
-")"		{ return(RP); }
-"+"		{ return(ADD); }
-"-"		{ return(SUB); }
-"*"		{ return(MUL); }
-"/"		{ return(DIV); }
-"%"		{ return(MOD); }
-{id}		{ return(ID); }
-.   {return(OTHER);}
 
 %%
