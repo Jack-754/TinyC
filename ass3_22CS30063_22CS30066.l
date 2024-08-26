@@ -17,9 +17,7 @@ newline                 \n
 
 identifier_nondigit	    [a-zA-Z_]
 digit	                [0-9]
-identifier {identifier_nondigit}({identifier_nondigit}|{digit})*
-
-
+identifier              {identifier_nondigit}({identifier_nondigit}|{digit})*
 
 nonzero_digit	        [1-9]
 digit_sequence          {digit}+
@@ -42,8 +40,8 @@ string_literal          \"{s_char_sequence}?\"
 
 
 %%
-{Single_Line_Comment} {return SLC;}
-{Multi_Line_Comment} {return MLC;}
+{Single_Line_Comment} {;}
+{Multi_Line_Comment} {;}
 {space}     { ;}
 {newline}    { ;}
 "auto"      { return KEYWORD; }
@@ -128,6 +126,23 @@ string_literal          \"{s_char_sequence}?\"
 "?"             {return PUNCTUATOR;}
 ":"             {return PUNCTUATOR;}
 "#"             {return PUNCTUATOR;}
+"->"			{return PUNCTUATOR;}
+"..."			{return PUNCTUATOR;}
+"*="			{return PUNCTUATOR;}
+"/="			{return PUNCTUATOR;}
+"%="			{return PUNCTUATOR;}
+"+="			{return PUNCTUATOR;}
+"-="			{return PUNCTUATOR;}
+"<<="			{return PUNCTUATOR;}
+">>="			{return PUNCTUATOR;}
+"&="			{return PUNCTUATOR;}
+"^="			{return PUNCTUATOR;}
+"|="			{return PUNCTUATOR;}
 
 .               {return OTHER;}
 %%
+
+int yywrap(void)
+{
+	return 1;
+}
