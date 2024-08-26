@@ -17,9 +17,7 @@ newline                 \n
 
 identifier_nondigit	    [a-zA-Z_]
 digit	                [0-9]
-identifier {identifier_nondigit}({identifier_nondigit}|{digit})*
-
-
+identifier              {identifier_nondigit}({identifier_nondigit}|{digit})*
 
 nonzero_digit	        [1-9]
 digit_sequence          {digit}+
@@ -131,3 +129,8 @@ string_literal          \"{s_char_sequence}?\"
 
 .               {return OTHER;}
 %%
+
+int yywrap(void)
+{
+	return 1;
+}

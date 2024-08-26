@@ -14,7 +14,7 @@ symboltable addtbl ( symboltable T, char* name)
    node *p;
    p = T;
    while (p) {
-      if (name==p->name) {
+      if (!strcmp(name,p->name)) {
          return T;
       }
       p = p -> next;
