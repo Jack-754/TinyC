@@ -10,7 +10,7 @@
 %}
 
 Single_Line_Comment "//"[^\n]*
-Multi_Line_Comment \/\*[^\S*]*(\*+[^\*\/][^\*]*)*[\*]\/
+Multi_Line_Comment \/\*[^\*]*(\*+[^\*\/][^\*]*)*[\*]\/
 
 space	                [ \t]+
 newline                 \n
