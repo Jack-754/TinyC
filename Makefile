@@ -1,4 +1,4 @@
-test = temp_test.c
+test = ass3_22CS30063_22CS30066_test.c
 output = test.out
 main_c_file = ass3_22CS30063_22CS30066.c
 lex_file = ass3_22CS30063_22CS30066.l
