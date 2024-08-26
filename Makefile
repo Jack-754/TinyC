@@ -9,7 +9,7 @@ run: $(output)
 	./$(output) < $(test) | tee $(log)
 
 $(output): lex.yy.c $(main_c_file)
-	gcc -o $(output) $(main_c_file)  -lfl
+	gcc -o $(output) $(main_c_file)  -ll
 
 lex.yy.c: 
 	flex $(lex_file)
