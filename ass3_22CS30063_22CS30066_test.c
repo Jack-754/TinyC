@@ -55,6 +55,8 @@ UPPERCASE_ID
 // Test for various punctuators
 ++ -- & | ^ << >> <= >= == != && ||
 + - * / % = ( ) { } [ ] ; , . ! ~ ? : #
+-> *= /= %= += -= <<= >>= &= |= ^= 
+< > ...
 
 
 // Short Test on a small C code

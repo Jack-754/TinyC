@@ -126,6 +126,18 @@ string_literal          \"{s_char_sequence}?\"
 "?"             {return PUNCTUATOR;}
 ":"             {return PUNCTUATOR;}
 "#"             {return PUNCTUATOR;}
+"->"			{return PUNCTUATOR;}
+"..."			{return PUNCTUATOR;}
+"*="			{return PUNCTUATOR;}
+"/="			{return PUNCTUATOR;}
+"%="			{return PUNCTUATOR;}
+"+="			{return PUNCTUATOR;}
+"-="			{return PUNCTUATOR;}
+"<<="			{return PUNCTUATOR;}
+">>="			{return PUNCTUATOR;}
+"&="			{return PUNCTUATOR;}
+"^="			{return PUNCTUATOR;}
+"|="			{return PUNCTUATOR;}
 
 .               {return OTHER;}
 %%
