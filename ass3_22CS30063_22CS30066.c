@@ -37,7 +37,7 @@ void print(symboltable T){
 int main(){
     symboltable T=NULL;
     int nextok;
-    printf("\n**********TOKENIZATION PROCESS**********\n");
+    printf("**********TOKENIZATION PROCESS**********\n");
     while((nextok=yylex())){
         switch(nextok) {
             case OTHER:{
