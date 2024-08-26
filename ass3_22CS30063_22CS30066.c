@@ -4,83 +4,74 @@
 #include "lex.yy.c"
 
 typedef struct _node {
-   char* name;
-   struct _node *next;
+    char* token_name;
+    char* attribute_val;
+    struct _node *next;
 } node;
 typedef node * symboltable;
 
-symboltable addtbl ( symboltable T, char* name)
+symboltable addtbl ( symboltable T, char* token_name, char* attribute_val)
 {
    node *p;
    p = T;
    while (p) {
-      if (!strcmp(name,p->name)) {
+      if (!strcmp(attribute_val,p->attribute_val) && !(strcmp(token_name,p->token_name))) {
          return T;
       }
       p = p -> next;
    }
    p = (node *)malloc(sizeof(node));
-   p->name=strdup(name);
+   p->token_name=strdup(token_name);
+   p->attribute_val = strdup(attribute_val);
    p -> next = T;
    return p;
 }
-
 void print(symboltable T){
-    symboltable p=T;
-    while(p!=NULL){
-        printf("%s\n", p->name);
-        p=p->next;
+    if(T==NULL){
+        return;
     }
+    print(T->next);
+    printf("Type: %s  ,  Val: %s\n",T->token_name,T->attribute_val);
+    return;
 }
-
 int main(){
-    symboltable T=NULL, C=NULL, S=NULL;
+    symboltable T=NULL;
     int nextok;
+    printf("\n**********TOKENIZATION PROCESS**********\n");
     while((nextok=yylex())){
         switch(nextok) {
             case OTHER:{
-                printf("Invalid symbol: %s\n", yytext);
+                printf("***Invalid symbol: %s\n", yytext);
                 break;
             }
             case KEYWORD:{
-                printf("Keyword: %s\n", yytext);
+                printf("***FOUND Keyword: %s\n", yytext);
                 break;
             }
             case IDENTIFIER:{
-                printf("Identifier: %s\n", yytext);
-                T = addtbl(T, yytext);
+                printf("***FOUND Identifier: %s\n", yytext);
+                T = addtbl(T,"IDENTIFIER",yytext);
                 break;
             }
             case CONSTANT:{
-                printf("Constant: %s\n", yytext);
-                C = addtbl(C, yytext);
+                printf("***FOUND Constant: %s\n", yytext);
+                T = addtbl(T,"CONSTANT",yytext);
                 break;
             }
             case STRING_LITERAL:{
-                printf("String Literal: %s\n", yytext);
-                S = addtbl(S, yytext);
+                printf("***FOUND String_Literal: %s\n", yytext);
+                T = addtbl(T,"STRING_LITERAL",yytext);
                 break;
             }
             case PUNCTUATOR:{
-                printf("Punctuator: %s\n", yytext);
+                printf("***FOUND Punctuator: %s\n", yytext);
+                T = addtbl(T,"PUNCTUATOR",yytext);
                 break; 
-            }
-            case SLC: {
-                printf("Single Line Comment IGNORED\n");
-                break;
-            }
-            case MLC: {
-                printf("Multi Line Comment IGNORED\n");
-                break;
             }
             default: break;
         }
     }
-    printf("IDENTIFIERS:\n");
+    printf("\n**********CONTENTS OF SYMBOL_TABLE**********\n\n");
     print(T);
-    printf("\nCONSTANTS:\n");
-    print(C);
-    printf("\nSTRING LITERALS:\n");
-    print(S);
     return 0;
 }

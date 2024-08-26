@@ -40,8 +40,8 @@ string_literal          \"{s_char_sequence}?\"
 
 
 %%
-{Single_Line_Comment} {return SLC;}
-{Multi_Line_Comment} {return MLC;}
+{Single_Line_Comment} {;}
+{Multi_Line_Comment} {;}
 {space}     { ;}
 {newline}    { ;}
 "auto"      { return KEYWORD; }

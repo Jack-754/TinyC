@@ -1,5 +1,5 @@
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -46,7 +46,6 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
-typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -155,7 +154,7 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 typedef size_t yy_size_t;
 #endif
 
-extern yy_size_t yyleng;
+extern int yyleng;
 
 extern FILE *yyin, *yyout;
 
@@ -198,7 +197,7 @@ struct yy_buffer_state
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	yy_size_t yy_n_chars;
+	int yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
@@ -267,8 +266,8 @@ static YY_BUFFER_STATE * yy_buffer_stack = NULL; /**< Stack as an array. */
 
 /* yy_hold_char holds the character lost when yytext is formed. */
 static char yy_hold_char;
-static yy_size_t yy_n_chars;		/* number of characters read into yy_ch_buf */
-yy_size_t yyleng;
+static int yy_n_chars;		/* number of characters read into yy_ch_buf */
+int yyleng;
 
 /* Points to current character in buffer. */
 static char *yy_c_buf_p = NULL;
@@ -295,7 +294,7 @@ static void yy_init_buffer ( YY_BUFFER_STATE b, FILE *file  );
 
 YY_BUFFER_STATE yy_scan_buffer ( char *base, yy_size_t size  );
 YY_BUFFER_STATE yy_scan_string ( const char *yy_str  );
-YY_BUFFER_STATE yy_scan_bytes ( const char *bytes, yy_size_t len  );
+YY_BUFFER_STATE yy_scan_bytes ( const char *bytes, int len  );
 
 void *yyalloc ( yy_size_t  );
 void *yyrealloc ( void *, yy_size_t  );
@@ -348,7 +347,7 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	yyleng = (yy_size_t) (yy_cp - yy_bp); \
+	yyleng = (int) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -622,12 +621,7 @@ char *yytext;
 #define SLC 7
 #define MLC 8
 #line 624 "lex.yy.c"
-#line 26 "ass3_22CS30063_22CS30066.l"
-    // DIGIT                               [0-9]
-    // nonzero_digit	        [1-9]
-    // digit_sequence          {digit}+
-    // integer_constant        [0]|{nonzero_digit}{digit}*
-#line 630 "lex.yy.c"
+#line 625 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -666,7 +660,7 @@ FILE *yyget_out ( void );
 
 void yyset_out  ( FILE * _out_str  );
 
-			yy_size_t yyget_leng ( void );
+			int yyget_leng ( void );
 
 char *yyget_text ( void );
 
@@ -735,7 +729,7 @@ static int input ( void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		yy_size_t n; \
+		int n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -844,9 +838,9 @@ YY_DECL
 		}
 
 	{
-#line 48 "ass3_22CS30063_22CS30066.l"
+#line 42 "ass3_22CS30063_22CS30066.l"
 
-#line 849 "lex.yy.c"
+#line 844 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -905,422 +899,422 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 49 "ass3_22CS30063_22CS30066.l"
-{return SLC;}
+#line 43 "ass3_22CS30063_22CS30066.l"
+{;}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 50 "ass3_22CS30063_22CS30066.l"
-{return MLC;}
+#line 44 "ass3_22CS30063_22CS30066.l"
+{;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 51 "ass3_22CS30063_22CS30066.l"
+#line 45 "ass3_22CS30063_22CS30066.l"
 { ;}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 52 "ass3_22CS30063_22CS30066.l"
+#line 46 "ass3_22CS30063_22CS30066.l"
 { ;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 53 "ass3_22CS30063_22CS30066.l"
+#line 47 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 54 "ass3_22CS30063_22CS30066.l"
+#line 48 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 55 "ass3_22CS30063_22CS30066.l"
+#line 49 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 56 "ass3_22CS30063_22CS30066.l"
+#line 50 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 57 "ass3_22CS30063_22CS30066.l"
+#line 51 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 58 "ass3_22CS30063_22CS30066.l"
+#line 52 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 59 "ass3_22CS30063_22CS30066.l"
+#line 53 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 60 "ass3_22CS30063_22CS30066.l"
+#line 54 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 61 "ass3_22CS30063_22CS30066.l"
+#line 55 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 62 "ass3_22CS30063_22CS30066.l"
+#line 56 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 63 "ass3_22CS30063_22CS30066.l"
+#line 57 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 64 "ass3_22CS30063_22CS30066.l"
+#line 58 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 65 "ass3_22CS30063_22CS30066.l"
+#line 59 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 66 "ass3_22CS30063_22CS30066.l"
+#line 60 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 67 "ass3_22CS30063_22CS30066.l"
+#line 61 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 68 "ass3_22CS30063_22CS30066.l"
+#line 62 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 69 "ass3_22CS30063_22CS30066.l"
+#line 63 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 70 "ass3_22CS30063_22CS30066.l"
+#line 64 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 71 "ass3_22CS30063_22CS30066.l"
+#line 65 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 72 "ass3_22CS30063_22CS30066.l"
+#line 66 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 73 "ass3_22CS30063_22CS30066.l"
+#line 67 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 74 "ass3_22CS30063_22CS30066.l"
+#line 68 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 75 "ass3_22CS30063_22CS30066.l"
+#line 69 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 76 "ass3_22CS30063_22CS30066.l"
+#line 70 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 77 "ass3_22CS30063_22CS30066.l"
+#line 71 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 78 "ass3_22CS30063_22CS30066.l"
+#line 72 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 79 "ass3_22CS30063_22CS30066.l"
+#line 73 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 80 "ass3_22CS30063_22CS30066.l"
+#line 74 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 81 "ass3_22CS30063_22CS30066.l"
+#line 75 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 82 "ass3_22CS30063_22CS30066.l"
+#line 76 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 83 "ass3_22CS30063_22CS30066.l"
+#line 77 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 84 "ass3_22CS30063_22CS30066.l"
+#line 78 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 85 "ass3_22CS30063_22CS30066.l"
+#line 79 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 86 "ass3_22CS30063_22CS30066.l"
+#line 80 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 87 "ass3_22CS30063_22CS30066.l"
+#line 81 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 88 "ass3_22CS30063_22CS30066.l"
+#line 82 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 89 "ass3_22CS30063_22CS30066.l"
+#line 83 "ass3_22CS30063_22CS30066.l"
 { return KEYWORD; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 91 "ass3_22CS30063_22CS30066.l"
+#line 85 "ass3_22CS30063_22CS30066.l"
 {return CONSTANT;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 93 "ass3_22CS30063_22CS30066.l"
+#line 87 "ass3_22CS30063_22CS30066.l"
 {return STRING_LITERAL;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 95 "ass3_22CS30063_22CS30066.l"
+#line 89 "ass3_22CS30063_22CS30066.l"
 {return CONSTANT;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 96 "ass3_22CS30063_22CS30066.l"
+#line 90 "ass3_22CS30063_22CS30066.l"
 {return CONSTANT;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 98 "ass3_22CS30063_22CS30066.l"
+#line 92 "ass3_22CS30063_22CS30066.l"
 {return IDENTIFIER;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 100 "ass3_22CS30063_22CS30066.l"
+#line 94 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 101 "ass3_22CS30063_22CS30066.l"
+#line 95 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 102 "ass3_22CS30063_22CS30066.l"
+#line 96 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 103 "ass3_22CS30063_22CS30066.l"
+#line 97 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 104 "ass3_22CS30063_22CS30066.l"
+#line 98 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 105 "ass3_22CS30063_22CS30066.l"
+#line 99 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 106 "ass3_22CS30063_22CS30066.l"
+#line 100 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 107 "ass3_22CS30063_22CS30066.l"
+#line 101 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 108 "ass3_22CS30063_22CS30066.l"
+#line 102 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 109 "ass3_22CS30063_22CS30066.l"
+#line 103 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 110 "ass3_22CS30063_22CS30066.l"
+#line 104 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 111 "ass3_22CS30063_22CS30066.l"
+#line 105 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 112 "ass3_22CS30063_22CS30066.l"
+#line 106 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 113 "ass3_22CS30063_22CS30066.l"
+#line 107 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 114 "ass3_22CS30063_22CS30066.l"
+#line 108 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 115 "ass3_22CS30063_22CS30066.l"
+#line 109 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 116 "ass3_22CS30063_22CS30066.l"
+#line 110 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 117 "ass3_22CS30063_22CS30066.l"
+#line 111 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 118 "ass3_22CS30063_22CS30066.l"
+#line 112 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 119 "ass3_22CS30063_22CS30066.l"
+#line 113 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 120 "ass3_22CS30063_22CS30066.l"
+#line 114 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 121 "ass3_22CS30063_22CS30066.l"
+#line 115 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 122 "ass3_22CS30063_22CS30066.l"
+#line 116 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 123 "ass3_22CS30063_22CS30066.l"
+#line 117 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 124 "ass3_22CS30063_22CS30066.l"
+#line 118 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 125 "ass3_22CS30063_22CS30066.l"
+#line 119 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 126 "ass3_22CS30063_22CS30066.l"
+#line 120 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 127 "ass3_22CS30063_22CS30066.l"
+#line 121 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 128 "ass3_22CS30063_22CS30066.l"
+#line 122 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 129 "ass3_22CS30063_22CS30066.l"
+#line 123 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 130 "ass3_22CS30063_22CS30066.l"
+#line 124 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 131 "ass3_22CS30063_22CS30066.l"
+#line 125 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 132 "ass3_22CS30063_22CS30066.l"
+#line 126 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 133 "ass3_22CS30063_22CS30066.l"
+#line 127 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 134 "ass3_22CS30063_22CS30066.l"
+#line 128 "ass3_22CS30063_22CS30066.l"
 {return PUNCTUATOR;}
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 136 "ass3_22CS30063_22CS30066.l"
+#line 130 "ass3_22CS30063_22CS30066.l"
 {return OTHER;}
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 137 "ass3_22CS30063_22CS30066.l"
+#line 131 "ass3_22CS30063_22CS30066.l"
 ECHO;
 	YY_BREAK
-#line 1323 "lex.yy.c"
+#line 1318 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1507,7 +1501,7 @@ static int yy_get_next_buffer (void)
 
 	else
 		{
-			yy_size_t num_to_read =
+			int num_to_read =
 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
 
 		while ( num_to_read <= 0 )
@@ -1521,7 +1515,7 @@ static int yy_get_next_buffer (void)
 
 			if ( b->yy_is_our_buffer )
 				{
-				yy_size_t new_size = b->yy_buf_size * 2;
+				int new_size = b->yy_buf_size * 2;
 
 				if ( new_size <= 0 )
 					b->yy_buf_size += b->yy_buf_size / 8;
@@ -1579,7 +1573,7 @@ static int yy_get_next_buffer (void)
 
 	if (((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
 		/* Extend the array by 50%, plus the number we really need. */
-		yy_size_t new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
+		int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
 		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc(
 			(void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf, (yy_size_t) new_size  );
 		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
@@ -1668,7 +1662,7 @@ static int yy_get_next_buffer (void)
 	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
 		{ /* need to shift things up to make room */
 		/* +2 for EOB chars. */
-		yy_size_t number_to_move = (yy_n_chars) + 2;
+		int number_to_move = (yy_n_chars) + 2;
 		char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
 					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
 		char *source =
@@ -1719,7 +1713,7 @@ static int yy_get_next_buffer (void)
 
 		else
 			{ /* need more input */
-			yy_size_t offset = (yy_c_buf_p) - (yytext_ptr);
+			int offset = (int) ((yy_c_buf_p) - (yytext_ptr));
 			++(yy_c_buf_p);
 
 			switch ( yy_get_next_buffer(  ) )
@@ -2088,12 +2082,12 @@ YY_BUFFER_STATE yy_scan_string (const char * yystr )
  * 
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, yy_size_t  _yybytes_len )
+YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
 {
 	YY_BUFFER_STATE b;
 	char *buf;
 	yy_size_t n;
-	yy_size_t i;
+	int i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = (yy_size_t) (_yybytes_len + 2);
@@ -2135,7 +2129,7 @@ static void yynoreturn yy_fatal_error (const char* msg )
 	do \
 		{ \
 		/* Undo effects of setting up yytext. */ \
-        yy_size_t yyless_macro_arg = (n); \
+        int yyless_macro_arg = (n); \
         YY_LESS_LINENO(yyless_macro_arg);\
 		yytext[yyleng] = (yy_hold_char); \
 		(yy_c_buf_p) = yytext + yyless_macro_arg; \
@@ -2175,7 +2169,7 @@ FILE *yyget_out  (void)
 /** Get the length of the current token.
  * 
  */
-yy_size_t yyget_leng  (void)
+int yyget_leng  (void)
 {
         return yyleng;
 }
@@ -2325,7 +2319,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 137 "ass3_22CS30063_22CS30066.l"
+#line 131 "ass3_22CS30063_22CS30066.l"
 
 
 int yywrap(void)
