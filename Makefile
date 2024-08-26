@@ -4,6 +4,7 @@ main_c_file = ass3_22CS30063_22CS30066.c
 lex_file = ass3_22CS30063_22CS30066.l
 log = output.txt
 
+
 run: $(output)
 	./$(output) < $(test) | tee $(log)
 
