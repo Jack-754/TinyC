@@ -5,9 +5,13 @@
 #define STRING_LITERAL 4
 #define PUNCTUATOR 5
 #define OTHER 6
+#define SLC 7
+#define MLC 8
 %}
 
- 
+Single_Line_Comment "//"[^\n]*
+Multi_Line_Comment \/\*[^\*]*(\*+[^\*\/][^\*]*)*[\*]\/
+
 space	                [ \t]+
 newline                 \n
 
@@ -38,6 +42,8 @@ string_literal          \"{s_char_sequence}?\"
 
 
 %%
+{Single_Line_Comment} {return SLC;}
+{Multi_Line_Comment} {return MLC;}
 {space}     { ;}
 {newline}    { ;}
 "auto"      { return KEYWORD; }

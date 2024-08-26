@@ -36,27 +36,44 @@ void print(symboltable T){
 int main(){
     symboltable T=NULL, C=NULL, S=NULL;
     int nextok;
-    while(nextok=yylex()){
-        if(nextok==OTHER){
-            printf("Invalid symbol: %s\n", yytext);
-        }
-        else if(nextok==KEYWORD){
-            printf("Keyword: %s\n", yytext);
-        }
-        else if(nextok==IDENTIFIER){
-            printf("Identifier: %s\n", yytext);
-            T = addtbl(T, yytext);
-        }
-        else if(nextok==CONSTANT){
-            printf("Constant: %s\n", yytext);
-            C = addtbl(C, yytext);
-        }
-        else if(nextok==STRING_LITERAL){
-            printf("String Literal: %s\n", yytext);
-            S = addtbl(S, yytext);
-        }
-        else if(nextok==PUNCTUATOR){
-            printf("Punctuator: %s\n", yytext);
+    while((nextok=yylex())){
+        switch(nextok) {
+            case OTHER:{
+                printf("Invalid symbol: %s\n", yytext);
+                break;
+            }
+            case KEYWORD:{
+                printf("Keyword: %s\n", yytext);
+                break;
+            }
+            case IDENTIFIER:{
+                printf("Identifier: %s\n", yytext);
+                T = addtbl(T, yytext);
+                break;
+            }
+            case CONSTANT:{
+                printf("Constant: %s\n", yytext);
+                C = addtbl(C, yytext);
+                break;
+            }
+            case STRING_LITERAL:{
+                printf("String Literal: %s\n", yytext);
+                S = addtbl(S, yytext);
+                break;
+            }
+            case PUNCTUATOR:{
+                printf("Punctuator: %s\n", yytext);
+                break; 
+            }
+            case SLC: {
+                printf("Single Line Comment IGNORED\n");
+                break;
+            }
+            case MLC: {
+                printf("Multi Line Comment IGNORED\n");
+                break;
+            }
+            default: break;
         }
     }
     printf("IDENTIFIERS:\n");

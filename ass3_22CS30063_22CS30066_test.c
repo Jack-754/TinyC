@@ -19,6 +19,12 @@ UPPERCASE_ID
 
 ENUM_CONSTANT
 
+// This is to be ignored in the future
+
+/*
+This is to be ignored in the future
+*/
+
 'a'
 '\''
 '\"'
