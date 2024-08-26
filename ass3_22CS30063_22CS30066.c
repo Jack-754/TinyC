@@ -36,7 +36,7 @@ void print(symboltable T){
 int main(){
     symboltable T=NULL, C=NULL, S=NULL;
     int nextok;
-    while(nextok=yylex()){
+    while((nextok=yylex())){
         if(nextok==OTHER){
             printf("Invalid symbol: %s\n", yytext);
         }
@@ -57,6 +57,17 @@ int main(){
         }
         else if(nextok==PUNCTUATOR){
             printf("Punctuator: %s\n", yytext);
+        }
+        switch (nextok) {
+            case SLC: {
+                printf("Single Line Comment IGNORED\n");
+                break;
+            }
+            case MLC: {
+                printf("Multi Line Comment IGNORED\n");
+                break;
+            }
+            default: break;
         }
     }
     printf("IDENTIFIERS:\n");
