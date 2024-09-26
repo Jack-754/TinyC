@@ -1,0 +1,34 @@
+%{
+    #include "ass3_22CS30063_22CS30066.h"
+    // extern symboltable T;
+    void yyerror(char *);
+    int yylex();
+%}
+
+// KEYWORD Tokens
+%token AUTO ENUM RESTRICT UNSIGNED BREAK EXTERN RETURN VOID CASE FLOAT SHORT VOLATILE CHAR FOR SIGNED WHILE CONST GOTO SIZEOF _BOOL CONTINUE IF STATIC _COMPLEX DEFAULT INLINE STRUCT _IMAGINARY DO INT SWITCH DOUBLE LONG TYPEDEF ELSE REGISTER UNION
+
+
+%token LP RP LCP RCP LBP RBP SEMICOLON COMMA DOT TERNARY_QM TERNARY_SEP HASH ARROW SPREAD_OP // Punctuators
+
+%token LOGICAL_AND LOGICAL_OR LOGICAL_NOT // Logical Operators
+%token PLUS_FIX SUB_FIX LOGICAL_RIGHT_SHIFT LOGICAL_LEFT_SHIFT PLUS SUB STAR DIV MOD // Arithmetic Operators
+%token BITWISE_AND BITWISE_OR BITWISE_XOR BITWISE_NOT // Bitwise operators
+%token ASS_EQ MUL_EQ DIV_EQ MOD_EQ PLUS_EQ SUB_EQ SLR_EQ SLL_EQ AND_EQ XOR_EQ OR_EQ // Assignment operators
+%token REL_GT REL_LT REL_LTE REL_GTE REL_EQ REL_NEQ // Relational Operators
+
+
+
+%%
+
+%%
+
+void yyerror(char * s){
+    printf("Error: %s\n",s);
+    exit(0);
+}
+int main()
+{
+    yyparse();
+    return 0;
+}
