@@ -6,14 +6,24 @@
 #include <math.h>
 #include <string.h>
 
+typedef struct parsetree_node* parsetree;
+
+typedef struct child_list{
+    parsetree C;
+    struct child_list* next;
+} C_list;
+typedef C_list* children;
+
 typedef struct parsetree_node{
     char* parse_symbol;
-    struct parsetree_node* LC;
-    struct parsetree_node* RC;
+    children child_list;
 } PT_node;
-
 typedef struct parsetree_node* parsetree; 
 
-parsetree create_node(char* string, parsetree LC, parsetree RC);
+
+parsetree create_node(char* string);
+parsetree add_child(parsetree parent, parsetree child);
+
+parsetree create_leaf_node(char* type,char* string);
 
 #endif
