@@ -6,37 +6,31 @@
 %}
 
 %union {
-    char* lexval;
     parsetree tree;
 }
 
 
 // KEYWORD Tokens
-%token<lexval> AUTO ENUM RESTRICT UNSIGNED BREAK EXTERN RETURN VOID CASE FLOAT SHORT VOLATILE CHAR FOR SIGNED WHILE CONST GOTO SIZEOF BOOL CONTINUE IF STATIC COMPLEX DEFAULT INLINE STRUCT IMAGINARY DO INT SWITCH DOUBLE LONG TYPEDEF ELSE REGISTER UNION
-
-
-%token<lexval> LP RP LCP RCP LBP RBP SEMICOLON COMMA DOT TERNARY_QM TERNARY_SEP HASH ARROW SPREAD_OP // Punctuators
-
-%token<lexval> LOGICAL_AND LOGICAL_OR LOGICAL_NOT // Logical Operators
-%token<lexval> PLUS_FIX SUB_FIX LOGICAL_RIGHT_SHIFT LOGICAL_LEFT_SHIFT PLUS SUB STAR DIV MOD // Arithmetic Operators
-%token<lexval> BITWISE_AND BITWISE_OR BITWISE_XOR BITWISE_NOT // Bitwise operators
-%token<lexval> ASS_EQ MUL_EQ DIV_EQ MOD_EQ PLUS_EQ SUB_EQ SLR_EQ SLL_EQ AND_EQ XOR_EQ OR_EQ // Assignment operators
-%token<lexval> REL_GT REL_LT REL_LTE REL_GTE REL_EQ REL_NEQ // Relational Operators
-
-%token<lexval> IDENTIFIER STRING_LITERAL CONSTANT 
+%token<tree> AUTO ENUM RESTRICT UNSIGNED BREAK EXTERN RETURN VOID CASE FLOAT SHORT VOLATILE CHAR FOR SIGNED WHILE CONST GOTO SIZEOF BOOL CONTINUE IF STATIC COMPLEX DEFAULT INLINE STRUCT IMAGINARY DO INT SWITCH DOUBLE LONG TYPEDEF ELSE REGISTER UNION
+%token<tree> LP RP LCP RCP LBP RBP SEMICOLON COMMA DOT TERNARY_QM TERNARY_SEP HASH ARROW SPREAD_OP // Punctuators
+%token<tree> LOGICAL_AND LOGICAL_OR LOGICAL_NOT // Logical Operators
+%token<tree> PLUS_FIX SUB_FIX LOGICAL_RIGHT_SHIFT LOGICAL_LEFT_SHIFT PLUS SUB STAR DIV MOD // Arithmetic Operators
+%token<tree> BITWISE_AND BITWISE_OR BITWISE_XOR BITWISE_NOT // Bitwise operators
+%token<tree> ASS_EQ MUL_EQ DIV_EQ MOD_EQ PLUS_EQ SUB_EQ SLR_EQ SLL_EQ AND_EQ XOR_EQ OR_EQ // Assignment operators
+%token<tree> REL_GT REL_LT REL_LTE REL_GTE REL_EQ REL_NEQ // Relational Operators
+%token<tree> IDENTIFIER STRING_LITERAL CONSTANT 
 
 %type<tree> primary_expression postfix_expression argument_expression_list argument_expression_list_opt unary_expression unary_operator cast_expression multiplicative_expression additive_expression shift_expression relational_expression equality_expression AND_expression exclusive_OR_expression inclusive_OR_expression logical_AND_expression logical_OR_expression conditional_expression assignment_expression assignment_expression_opt assignment_operator expression expression_opt constant_expression
 %type<tree> declaration declaration_specifiers declaration_specifiers_opt init_declarator_list init_declarator_list_opt init_declarator storage_class_specifier type_specifier specifier_qualifier_list specifier_qualifier_list_opt type_qualifier fuction_specifier declarator direct_declarator pointer pointer_opt type_qualifier_list type_qualifier_list_opt parameter_list parameter_declaration identifier_list identifier_list_opt type_name initializer initializer_list designation designation_opt designator_list designator parameter_type_list 
 %type<tree> statement labeled_statement compound_statement block_item_list block_item_list_opt expression_statement block_item selection_statement iteration_statement jump_statement 
 %type<tree> translation_unit external_declaration function_definition declaration_list declaration_list_opt
-
 %%
 /* Expressions */
 primary_expression:
-      IDENTIFIER  {$$ = create_node("primary expression"); temp = create_leaf_node("Identifier",$1); add_child($$,$1);}
-    | CONSTANT    {$$ = create_node("primary expression"); temp = create_leaf_node("constant",$1); add_child($$,$1);}
-    | STRING_LITERAL  {$$ = create_node("primary expression"); temp = create_leaf_node("string literal",$1); add_child($$,$1);}
-    | LP expression RP  {$$ = create_node("primary expression"); temp = create_leaf_node("LP",$1); add_child($$,$1); add_child($$,$2); temp = create_leaf_node("RP",$3); add_child($$,$3);}
+      IDENTIFIER  {$$ = create_node("primary expression"); add_child($$,$1);}
+    | CONSTANT    {$$ = create_node("primary expression"); add_child($$,$1);}
+    | STRING_LITERAL  {$$ = create_node("primary expression"); add_child($$,$1);}
+    | LP expression RP  {$$ = create_node("primary expression"); add_child($$,$1);add_child($$,$2); add_child($$,$3);}
     ;
 
 postfix_expression:
