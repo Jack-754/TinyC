@@ -28,15 +28,15 @@ parsetree add_child(parsetree parent, parsetree child){
 
 parsetree create_leaf_node(string type, string s) {
     parsetree temp = new PT_node; 
-    temp->parse_symbol = type + ",  "+ s;
+    temp->parse_symbol = "T: " + type + ",  "+ s;
     temp->child_list = NULL;
     return temp;
 }
 
 void print_tree(parsetree root, int level){
     int space = level;
-    while(space >= 0){
-        printf("    ");
+    while(space > 0){
+        printf("  ");
         space--;
     }
     printf("%s\n",root->parse_symbol.c_str());
