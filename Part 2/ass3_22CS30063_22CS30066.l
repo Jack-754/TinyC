@@ -6,8 +6,9 @@
     int yylex();   
 %}
 
-Single_Line_Comment "//"[^\n]*
-Multi_Line_Comment \/\*[^\*]*(\*+[^\*\/][^\*]*)*[\*]\/
+%x SINGLE_LINE_COMMENT
+%x MULTI_LINE_COMMENT
+
 
 space	                [ \t]+
 newline                 \n
@@ -37,8 +38,16 @@ string_literal          \"{s_char_sequence}?\"
 
 
 %%
-{Single_Line_Comment} {;}
-{Multi_Line_Comment} {;}
+"//"                        {BEGIN(SINGLE_LINE_COMMENT);}
+<SINGLE_LINE_COMMENT>.         {}
+<SINGLE_LINE_COMMENT>\n        {BEGIN(INITIAL);}
+<SINGLE_LINE_COMMENT><<EOF>>   {BEGIN(INITIAL);}
+
+"/*"                        {BEGIN(MULTI_LINE_COMMENT);}
+<MULTI_LINE_COMMENT>"*/"       {BEGIN(INITIAL);}
+<MULTI_LINE_COMMENT>.          {}
+<MULTI_LINE_COMMENT>\n         {}
+
 {space}     { ;}
 {newline}    { ;}
 "auto"      {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return AUTO; }
@@ -80,14 +89,11 @@ string_literal          \"{s_char_sequence}?\"
 "register"  {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return REGISTER; }
 "union"     {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return UNION; }
 
-{character_constant}    {yylval.lexval = create_leaf_node("CONSTANT",strdup(yytext)); return CONSTANT;}
-
-{string_literal}        {yylval.lexval = create_leaf_node("STRING LITERAL",strdup(yytext)); return STRING_LITERAL;}
-
-{integer_constant}      {yylval.lexval = create_leaf_node("CONSTANT",strdup(yytext)); return CONSTANT;}
-{floating_constant}     {yylval.lexval = create_leaf_node("CONSTANT",strdup(yytext)); return CONSTANT;}
-
-{identifier}            {yylval.lexval = create_leaf_node("IDENTIFIER",strdup(yytext)); return IDENTIFIER;}
+{character_constant}    {yylval.tree = create_leaf_node("CONSTANT",strdup(yytext)); return CONSTANT;}
+{string_literal}        {yylval.tree = create_leaf_node("STRING LITERAL",strdup(yytext)); return STRING_LITERAL;}
+{integer_constant}      {yylval.tree = create_leaf_node("CONSTANT",strdup(yytext)); return CONSTANT;}
+{floating_constant}     {yylval.tree = create_leaf_node("CONSTANT",strdup(yytext)); return CONSTANT;}
+{identifier}            {yylval.tree = create_leaf_node("IDENTIFIER",strdup(yytext)); return IDENTIFIER;}
 
 
 "++"            {yylval.tree = create_leaf_node("PUNCTUATOR",strdup(yytext)); return PLUS_FIX;}
@@ -138,7 +144,7 @@ string_literal          \"{s_char_sequence}?\"
 "^="			{yylval.tree = create_leaf_node("PUNCTUATOR",strdup(yytext)); return XOR_EQ;}
 "|="			{yylval.tree = create_leaf_node("PUNCTUATOR",strdup(yytext)); return OR_EQ;}
 
-.               {return OTHER;}
+.               {;}
 %%
 
 int yywrap(void)

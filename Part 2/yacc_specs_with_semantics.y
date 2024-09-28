@@ -24,8 +24,24 @@
 %type<tree> declaration declaration_specifiers declaration_specifiers_opt init_declarator_list init_declarator_list_opt init_declarator storage_class_specifier type_specifier specifier_qualifier_list specifier_qualifier_list_opt type_qualifier fuction_specifier declarator direct_declarator pointer pointer_opt type_qualifier_list type_qualifier_list_opt parameter_list parameter_declaration identifier_list identifier_list_opt type_name initializer initializer_list designation designation_opt designator_list designator parameter_type_list 
 %type<tree> statement labeled_statement compound_statement block_item_list block_item_list_opt expression_statement block_item selection_statement iteration_statement jump_statement 
 %type<tree> translation_unit external_declaration function_definition declaration_list declaration_list_opt
+
+%type<tree> Start
+
+%nonassoc RP
+%nonassoc ELSE
+
+%start Start
+
 %%
-/* Expressions */
+
+/* START */
+
+Start: 
+    translation_unit                                                { $$ = create_node("START SYMBOL"); add_child($$, $1); printf("The Parse Tree:\n"); print_tree($$,0);}
+  |                                                                 { $$ = create_node("START SYMBOL"); add_child($$, create_node("(empty transition)")); printf("The Parse Tree:\n"); print_tree($$,0);}
+  ;
+
+
 /* Expressions */
 primary_expression:
       IDENTIFIER                                                    { $$ = create_node("primary_expression"); add_child($$, $1); }
@@ -36,7 +52,7 @@ primary_expression:
 
 postfix_expression:
       primary_expression                                            { $$ = create_node("postfix_expression"); add_child($$, $1); }
-    | postfix_expression LBP expression RBP                         { $$ = create_node("postfix_expression"); add_child($$, $1); add_child($$, $2); add_child($$, $3); }
+    | postfix_expression LBP expression RBP                         { $$ = create_node("postfix_expression"); add_child($$, $1); add_child($$, $2); add_child($$, $3); add_child($$, $4); }
     | postfix_expression LP argument_expression_list_opt RP         { $$ = create_node("postfix_expression"); add_child($$, $1); add_child($$, $2); add_child($$, $3); add_child($$, $4); }
     | postfix_expression DOT IDENTIFIER                             { $$ = create_node("postfix_expression"); add_child($$, $1); add_child($$, $2); add_child($$, $3); }
     | postfix_expression ARROW IDENTIFIER                           { $$ = create_node("postfix_expression"); add_child($$, $1); add_child($$, $2); add_child($$, $3); }
@@ -53,7 +69,7 @@ argument_expression_list:
 
 argument_expression_list_opt:
       argument_expression_list                                      { $$ = create_node("argument_expression_list_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("argument_expression_list_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("argument_expression_list_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 unary_expression:
@@ -66,12 +82,12 @@ unary_expression:
     ;
 
 unary_operator:
-      BITWISE_AND                                                   { $$ = $1; }
-    | STAR                                                          { $$ = $1; }
-    | PLUS                                                          { $$ = $1; }
-    | SUB                                                           { $$ = $1; }
-    | BITWISE_NOT                                                   { $$ = $1; }
-    | LOGICAL_NOT                                                   { $$ = $1; }
+      BITWISE_AND                                                   { $$ = create_node("unary_operator"); add_child($$,$1);}
+    | STAR                                                          { $$ = create_node("unary_operator"); add_child($$,$1);}
+    | PLUS                                                          { $$ = create_node("unary_operator"); add_child($$,$1);}
+    | SUB                                                           { $$ = create_node("unary_operator"); add_child($$,$1);}
+    | BITWISE_NOT                                                   { $$ = create_node("unary_operator"); add_child($$,$1);}
+    | LOGICAL_NOT                                                   { $$ = create_node("unary_operator"); add_child($$,$1);}
     ;
 
 cast_expression:
@@ -148,21 +164,21 @@ assignment_expression:
 
 assignment_expression_opt:
       assignment_expression                                                             { $$ = create_node("assignment_expression_opt"); add_child($$, $1); }
-    |                                                                                   { $$ = create_node("assignment_expression_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                                                   { $$ = create_node("assignment_expression_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 assignment_operator:
-    ASS_EQ                                                          { $$ = create_node("assignment_operator");$$ = $1; }
-    | MUL_EQ                                                        { $$ = create_node("assignment_operator");$$ = $1; }
-    | DIV_EQ                                                        { $$ = create_node("assignment_operator");$$ = $1; }
-    | MOD_EQ                                                        { $$ = create_node("assignment_operator");$$ = $1; }
-    | PLUS_EQ                                                       { $$ = create_node("assignment_operator");$$ = $1; }
-    | SUB_EQ                                                        { $$ = create_node("assignment_operator");$$ = $1; }
-    | AND_EQ                                                        { $$ = create_node("assignment_operator");$$ = $1; }
-    | XOR_EQ                                                        { $$ = create_node("assignment_operator");$$ = $1; }
-    | OR_EQ                                                         { $$ = create_node("assignment_operator");$$ = $1; }
-    | SLL_EQ                                                        { $$ = create_node("assignment_operator");$$ = $1; }
-    | SLR_EQ                                                        { $$ = create_node("assignment_operator");$$ = $1; }
+    ASS_EQ                                                          { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | MUL_EQ                                                        { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | DIV_EQ                                                        { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | MOD_EQ                                                        { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | PLUS_EQ                                                       { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | SUB_EQ                                                        { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | AND_EQ                                                        { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | XOR_EQ                                                        { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | OR_EQ                                                         { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | SLL_EQ                                                        { $$ = create_node("assignment_operator"); add_child($$,$1); }
+    | SLR_EQ                                                        { $$ = create_node("assignment_operator"); add_child($$,$1); }
     ;
 
 expression:
@@ -172,7 +188,7 @@ expression:
 
 expression_opt:
       expression                                                    { $$ = create_node("expression_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("expression_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("expression_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 constant_expression:
@@ -193,7 +209,7 @@ declaration_specifiers:
 
 declaration_specifiers_opt:
       declaration_specifiers                                        { $$ = create_node("declaration_specifiers_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("declaration_specifiers_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("declaration_specifiers_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 init_declarator_list:
@@ -203,7 +219,7 @@ init_declarator_list:
 
 init_declarator_list_opt:
       init_declarator_list                                          { $$ = create_node("init_declarator_list_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("init_declarator_list_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("init_declarator_list_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 init_declarator:
@@ -212,25 +228,25 @@ init_declarator:
     ;
 
 storage_class_specifier:
-     EXTERN                                                         { $$ = create_node("storage class specifier");$$ = $1; }
-    | STATIC                                                        { $$ = create_node("storage class specifier");$$ = $1; }
-    | AUTO                                                          { $$ = create_node("storage class specifier");$$ = $1; }
-    | REGISTER                                                      { $$ = create_node("storage class specifier");$$ = $1; }
+     EXTERN                                                         { $$ = create_node("storage class specifier"); add_child($$,$1); }
+    | STATIC                                                        { $$ = create_node("storage class specifier"); add_child($$,$1); }
+    | AUTO                                                          { $$ = create_node("storage class specifier"); add_child($$,$1); }
+    | REGISTER                                                      { $$ = create_node("storage class specifier"); add_child($$,$1); }
     ;
 
 type_specifier:
-      VOID                                                          { $$ = create_node("type specifier");$$ = $1; }
-    | CHAR                                                          { $$ = create_node("type specifier");$$ = $1; }
-    | SHORT                                                         { $$ = create_node("type specifier");$$ = $1; }
-    | INT                                                           { $$ = create_node("type specifier");$$ = $1; }
-    | LONG                                                          { $$ = create_node("type specifier");$$ = $1; }
-    | FLOAT                                                         { $$ = create_node("type specifier");$$ = $1; }
-    | DOUBLE                                                        { $$ = create_node("type specifier");$$ = $1; }
-    | SIGNED                                                        { $$ = create_node("type specifier");$$ = $1; }
-    | UNSIGNED                                                      { $$ = create_node("type specifier");$$ = $1; }
-    | BOOL                                                          { $$ = create_node("type specifier");$$ = $1; }
-    | COMPLEX                                                       { $$ = create_node("type specifier");$$ = $1; }
-    | IMAGINARY                                                     { $$ = create_node("type specifier");$$ = $1; }
+      VOID                                                          { $$ = create_node("type specifier"); add_child($$,$1); }
+    | CHAR                                                          { $$ = create_node("type specifier"); add_child($$,$1); }
+    | SHORT                                                         { $$ = create_node("type specifier"); add_child($$,$1); }
+    | INT                                                           { $$ = create_node("type specifier"); add_child($$,$1); }
+    | LONG                                                          { $$ = create_node("type specifier"); add_child($$,$1); }
+    | FLOAT                                                         { $$ = create_node("type specifier"); add_child($$,$1); }
+    | DOUBLE                                                        { $$ = create_node("type specifier"); add_child($$,$1); }
+    | SIGNED                                                        { $$ = create_node("type specifier"); add_child($$,$1); }
+    | UNSIGNED                                                      { $$ = create_node("type specifier"); add_child($$,$1); }
+    | BOOL                                                          { $$ = create_node("type specifier"); add_child($$,$1); }
+    | COMPLEX                                                       { $$ = create_node("type specifier"); add_child($$,$1); }
+    | IMAGINARY                                                     { $$ = create_node("type specifier"); add_child($$,$1); }
     ;
 
 specifier_qualifier_list:
@@ -240,17 +256,17 @@ specifier_qualifier_list:
 
 specifier_qualifier_list_opt:
       specifier_qualifier_list                                      { $$ = create_node("specifier_qualifier_list_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("specifier_qualifier_list_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("specifier_qualifier_list_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 type_qualifier:
-      CONST                                                         { $$ = create_node("type qualifier");$$ = $1; }
-    | RESTRICT                                                      { $$ = create_node("type qualifier");$$ = $1; }
-    | VOLATILE                                                      { $$ = create_node("type qualifier");$$ = $1; }
+      CONST                                                         { $$ = create_node("type qualifier"); add_child($$,$1); }
+    | RESTRICT                                                      { $$ = create_node("type qualifier"); add_child($$,$1); }
+    | VOLATILE                                                      { $$ = create_node("type qualifier"); add_child($$,$1); }
     ;
 
 fuction_specifier:
-      INLINE                                                        { $$ = create_node("function specifier"); $$ = $1; }
+      INLINE                                                        { $$ = create_node("function specifier"); add_child($$,$1); }
     ;
 
 declarator:
@@ -260,7 +276,7 @@ declarator:
 direct_declarator:
       IDENTIFIER                                                                        { $$ = create_node("direct_declarator"); add_child($$, $1); }
     | LP declarator RP                                                                  { $$ = create_node("direct_declarator"); add_child($$, $1); add_child($$, $2); add_child($$, $3); }
-    | direct_declarator LBP type_qualifier_list_opt assignment_expression_opt RP        { $$ = create_node("direct_declarator"); add_child($$, $1); add_child($$, $2); add_child($$, $3); add_child($$, $4); add_child($$, $5); }
+    | direct_declarator LBP type_qualifier_list_opt assignment_expression_opt RBP        { $$ = create_node("direct_declarator"); add_child($$, $1); add_child($$, $2); add_child($$, $3); add_child($$, $4); add_child($$, $5); }
     | direct_declarator LBP STATIC type_qualifier_list_opt assignment_expression RBP    { $$ = create_node("direct_declarator"); add_child($$, $1); add_child($$, $2); add_child($$, $3); add_child($$, $4); add_child($$, $5); }
     | direct_declarator LBP type_qualifier_list STATIC assignment_expression RBP        { $$ = create_node("direct_declarator"); add_child($$, $1); add_child($$, $2); add_child($$, $3); add_child($$, $4); add_child($$, $5); }
     | direct_declarator LBP type_qualifier_list_opt STAR RBP                            { $$ = create_node("direct_declarator"); add_child($$, $1); add_child($$, $2); add_child($$, $3); add_child($$, $4); }
@@ -275,7 +291,7 @@ pointer:
 
 pointer_opt:
       pointer                                                       { $$ = create_node("pointer_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("pointer_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("pointer_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 type_qualifier_list:
@@ -285,7 +301,7 @@ type_qualifier_list:
 
 type_qualifier_list_opt:
       type_qualifier_list                                           { $$ = create_node("type_qualifier_list_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("type_qualifier_list_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("type_qualifier_list_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 parameter_type_list:
@@ -310,7 +326,7 @@ identifier_list:
 
 identifier_list_opt:
       identifier_list                                               { $$ = create_node("identifier_list_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("identifier_list_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("identifier_list_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 type_name:
@@ -334,7 +350,7 @@ designation:
 
 designation_opt:
       designation                                                   { $$ = create_node("designation_opt"); add_child($$, $1); }
-    |                                                               { $$ = create_node("designation_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                               { $$ = create_node("designation_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 designator_list:
@@ -343,7 +359,7 @@ designator_list:
     ;
 
 designator:
-      LBP constant_expression RCP                                       { $$ = create_node("designator"); add_child($$, $1); add_child($$, $2); add_child($$, $3); }
+      LBP constant_expression RBP                                       { $$ = create_node("designator"); add_child($$, $1); add_child($$, $2); add_child($$, $3); }
     | DOT IDENTIFIER                                                    { $$ = create_node("designator"); add_child($$, $1); add_child($$, $2); }
     ;
 
@@ -374,7 +390,7 @@ block_item_list:
 
 block_item_list_opt:
       block_item_list                                                   { $$ = create_node("block_item_list_opt"); add_child($$, $1); }
-    |                                                                   { $$ = create_node("block_item_list_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                                   { $$ = create_node("block_item_list_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 block_item:
@@ -429,7 +445,7 @@ declaration_list:
 
 declaration_list_opt:
       declaration_list                                                  { $$ = create_node("declaration_list_opt"); add_child($$, $1); }
-    |                                                                   { $$ = create_node("declaration_list_opt"); add_child($$, create_node("(empty transition)"))}
+    |                                                                   { $$ = create_node("declaration_list_opt"); add_child($$, create_node("(empty transition)"));}
     ;
 
 %%

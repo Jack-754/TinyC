@@ -342,7 +342,7 @@ designator_list:
     ;
 
 designator:
-      LBP constant_expression RCP
+      LBP constant_expression RBP
     | DOT IDENTIFIER
     ;
 
