@@ -461,7 +461,7 @@ declaration_list_opt:
 
 
 void yyerror(char * s){
-    printf("ERROR: %s\n\t\t at line: %d\n\tnear \" %s \"\n", s, yylineno, yytext);
+    printf("ERROR: %s \t line_no: %d \t token: %s \n", s, yylineno, yytext);
     exit(0);
 }
 
