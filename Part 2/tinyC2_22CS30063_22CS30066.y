@@ -1,6 +1,15 @@
+/*
+  Yacc file
+  Group-
+  More Aayush Babasaheb 22CS30063
+  Devanshu Agrawal 22CS30066
+*/  
+
 %{
-    #include "ass3_22CS30063_22CS30066.h"
-    // extern symboltable T;
+    #include "tinyC2_22CS30063_22CS30066.h"
+    extern int yylex();
+    extern int yylineno;
+    extern char *yytext;
     void yyerror(char *);
     int yylex();
 %}
@@ -452,11 +461,7 @@ declaration_list_opt:
 
 
 void yyerror(char * s){
-    printf("Error: %s\n",s);
+    printf("ERROR: %s \t line_no: %d \t token: %s \n", s, yylineno, yytext);
     exit(0);
 }
-int main()
-{
-    yyparse();
-    return 0;
-}
+

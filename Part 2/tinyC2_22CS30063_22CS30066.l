@@ -1,10 +1,17 @@
 %{
-	# include "ass3_22CS30063_22CS30066.h"
+	# include "tinyC2_22CS30063_22CS30066.h"
     # include "y.tab.h"
-    // extern symboltable T;
     void yyerror(char *);
-    int yylex();   
+    int yylex(); 
+    /*
+        Lex file
+        Group-
+        More Aayush Babasaheb 22CS30063
+        Devanshu Agrawal 22CS30066
+    */  
 %}
+
+%option yylineno
 
 %x SINGLE_LINE_COMMENT
 %x MULTI_LINE_COMMENT
@@ -78,7 +85,6 @@ string_literal          \"{s_char_sequence}?\"
 "inline"    {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return INLINE; }
 "struct"    {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return STRUCT; }
 "_Imaginary" {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return IMAGINARY; }
-"do"        {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return DO; }
 "do"        {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return DO; }
 "int"       {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return INT; }
 "switch"    {yylval.tree = create_leaf_node("KEYWORD",strdup(yytext)); return SWITCH; }
