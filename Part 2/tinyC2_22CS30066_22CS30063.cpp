@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include "ass3_22CS30063_22CS30066.h"
+#include "tinyC2_22CS30063_22CS30066.h"
+#include "y.tab.h"
 
 parsetree create_node(string s){
     parsetree temp = new PT_node; 
@@ -46,4 +47,10 @@ void print_tree(parsetree root, int level){
         tail= tail->next;
     }
     return;
+}
+
+int main()
+{
+    yyparse();
+    return 0;
 }

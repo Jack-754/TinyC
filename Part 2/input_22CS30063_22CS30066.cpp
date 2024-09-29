@@ -81,6 +81,5 @@ int main() {
 
     // inline void foo2(int a, int b) {}
     my_custom_function(10, 20);
-
     return 0;
 }

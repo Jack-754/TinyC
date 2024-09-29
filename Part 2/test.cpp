@@ -1,96 +1,156 @@
 /*
- *  // Anit Mangal - 21CS10005
- *  // Mihir Mallick - 21CS30031
- */
+    Multi line Comment
+    Group-
+    More Aayush Babasaheb 22CS30063
+    Devanshu Agrawal 22CS30066
 
-//Uncomment the following commented portions to test the preprocessor
+*/
 
-/*#define MY_CUSTOM_MACRO1(ptr, p2, v3, ...) do { \
-    auto int custom_var1; \
-    register int custom_var2; \
-    extern int custom_var3; \
-    static int custom_var4 = 42; \
-} while(0)*/
+inline void my_custom_function(int arg1, int arg2) { // Functional Specifier test
+    // storage class specifier test
+    auto int v1;
+    register int v2;
+    extern int v3;
+    static int v4;
+}
 
-//#define MY_CUSTOM_MACRO2(arr_b, arr_c, arr_d, arr_e) "My custom macro"
+void example_function(int a, float b) {
+    int result = a + (int)b;
+}
 
-    inline void my_custom_function(int a, int b) {
-        auto int custom_var1;
-        register int custom_var2;
-        extern int custom_var3;
-        static int custom_var4 = 42;
+// typescecifier and global statements test
+void g1;
+char g2;
+short g3;
+int g4;
+long g5;
+float g6;
+double g7;
+signed g8;
+unsigned g9;
+_Bool g10;
+_Complex g11;
+_Imaginary g12;
+
+int main(){
+
+    // expressions testing
+    int a = 5, b = 10, c;
+    c = a;
+    int d = 20;
+    const char *str = "Hello";
+    c = a + b;
+    int arr[3] = {1, 2, 3};
+    int index = 1;
+    c = arr[index];
+    c = a++;
+    c = b--;
+    c = ++a;
+    c = --b;
+    c = +a;
+    c = -b;
+    c = ~a;
+    c = !b;
+    int size = sizeof(a);
+    float f = 10.5;
+    int i = (int) f;
+    c = a * b;
+    c = a / 2;
+    c = a % 3;
+    c = a + b;
+    c = a - b;
+    c = a << 1;
+    c = b >> 1;
+    c = a < b;
+    c = a > b;
+    c = a <= b;
+    c = a >= b;
+    c = a == b;
+    c = a != b;
+    c = a & b;
+    c = a ^ b;
+    c = a | b;
+    c = a && b;
+    c = a || b;
+    c = (a > b) ? a : b;
+
+    // declaration testing
+
+    static int d;
+    extern int e;
+    register int f;
+    volatile int g;
+
+    unsigned int h = 30;
+    signed int i;
+    long j = 40;
+    short k;
+
+    float l = 3.14;
+    double m;
+    _Bool n = 1;
+
+    int arr[5];
+    int *ptr;
+    ptr = &a;
+    arr[0] = *ptr;
+
+    int multi[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    int *multi_ptr = &multi[0][0];
+
+    const int x = 100;
+    restrict int *restrict_ptr = &a;
+    volatile int vol_var = 200;
+
+    student.id = 1;
+    student.name[0] = 'A';
+
+    int (*func_ptr)(int, float);
+    int **ptr_to_ptr;
+    ptr_to_ptr = &ptr;
+
+    // statements
+
+    if (x > 0) {
+        x++;
+    } else {
+        x--;
     }
 
-int main() {
-    int my_array1[6] = { 1, 2, [2]=7 };
-    char my_array2[] = "Hello, Universe!";
-    char char_var1 = 'A';
-    char *char_ptr_var = &char_var1;
-    *char_ptr_var = 'B';
+    switch (x) {
+        case 0:
+            x = 10;
+            break;
+        default:
+            x = -1;
+            break;
+    }
 
-    unsigned long ul_var1 = +1234567890;
-    short short_var = ~255;
-    float f_var = -2.34;
-    double d_var = 1.618e-3;
-    _Bool bool_var = 1;
-    double _Complex complex_var;
-    double _Imaginary imaginary_var;
+    while (x < 5) {
+        x++;
+    }
 
-    ul_var1 = (int) short_var;
-    ul_var1 = sizeof(double);
-    ul_var1 = sizeof ul_var1;
-
-    ul_var1 *= ul_var1, ul_var1 /= ul_var1, ul_var1 %= ul_var1;
-    //ul_var1 += (ul_var1 -= ul_var1);
-    ul_var1 <<= (ul_var1 >>= ul_var1);
-    ul_var1 &= ul_var1 |= ul_var1 ^= ul_var1;
-
-    ul_var1 = ( (ul_var1 == 0 || ul_var1 == 1) && ul_var1 != short_var ) ? ul_var1 = 0 : short_var;
-    my_array1[short_var] = ul_var1;
-
-    MY_LABEL:
-        if (f_var < d_var) {
-
-            switch (short_var) {
-                case 0:
-                    short_var++;
-                    break;
-                default:
-                    short_var--;
-            }
-
-        } else if (f_var > d_var) {
-            if(short_var >= ul_var1)
-                ul_var1++;
-        } else {
-            if(short_var <= ul_var1)
-                short_var++;
-        }
-    
-    while(short_var--)
-        goto MY_LABEL;
-
-    /* This is a multi-line comment
-       spanning multiple lines.
-       It can be used for explanations. */
+    for (int i = 0; i < 10; i++) {
+        x += i;
+    }
 
     do {
-        short_var++;
-    } while(short_var < 0);
+        x--;
+    } while (x > 0);
 
-    int t_var1, t_var2, t_var3, t_var4, t_var5, t_var6;
+    goto label;
+    label: x = 100;
 
-    t_var1 = t_var1 + t_var2 - t_var3 / t_var4 * t_var5 % t_var6;
-    t_var2 = t_var2 << 2;
-    t_var2 = t_var2 >> 2;
-    t_var1 = t_var2 & t_var3 | t_var4 ^ t_var5;
+    continue;
+    break;
 
-    /* . and -> test */
-    my_struct_type1.my_member = 5;
-    my_struct_type2->my_member = 6;
+    return;
 
-    // inline void foo2(int a, int b) {}
-    my_custom_function(10, 20);
+    // testing external definitions
+    int x = 5;
+    float y = 3.2;
+
+    example_function(x, y);
 
     return 0;
 }

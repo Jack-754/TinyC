@@ -1,5 +1,5 @@
-#ifndef ASS3_22CS30063_22CS30066_H
-#define ASS3_22CS30063_22CS30066_H
+#ifndef TINYC2_22CS30063_22CS30066_H
+#define TINYC2_22CS30063_22CS30066_H
 
 #include <iostream>
 #include <string>
