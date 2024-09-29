@@ -1,3 +1,10 @@
+/*
+  Yacc file
+  Group-
+  More Aayush Babasaheb 22CS30063
+  Devanshu Agrawal 22CS30066
+*/  
+
 %{
     #include "tinyC2_22CS30063_22CS30066.h"
     extern int yylex();

@@ -1,9 +1,14 @@
 %{
 	# include "tinyC2_22CS30063_22CS30066.h"
     # include "y.tab.h"
-    // extern symboltable T;
     void yyerror(char *);
-    int yylex();   
+    int yylex(); 
+    /*
+        Lex file
+        Group-
+        More Aayush Babasaheb 22CS30063
+        Devanshu Agrawal 22CS30066
+    */  
 %}
 
 %option yylineno
