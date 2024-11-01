@@ -1,0 +1,112 @@
+
+    1: power: 
+    2:    t0 = 0
+    3:    if exponent == t0 goto 4
+    4:    goto 8
+
+    5: power.IF$0: 
+    6:    t0 = 1.0
+    7:    return t0
+    8:    goto 
+    9:    t1 = 0
+    10:    if exponent > t1 goto 11
+    11:    goto 20
+
+    12: power.IF$1: 
+    13:    param base
+    14:    t0 = 1
+    15:    t1 = exponent - t0
+    16:    param t1
+    17:    t2 = call power, 2
+    18:    t3 = base * t2
+    19:    return t3
+    20:    goto 
+
+    21: power.ELSE$2: 
+    22:    t0 = 1.0
+    23:    param base
+    24:    t1 = -exponent
+    25:    t2 = 1
+    26:    t3 = t1 - t2
+    27:    param t3
+    28:    t4 = call power, 2
+    29:    t5 = base * t4
+    30:    t6 = t0 / t5
+    31:    return t6
+
+    32: main: 
+    33:    t0 = 5
+    34:    num = t0
+    35:    t2 = 2.0
+    36:    base = t2
+    37:    t4 = 3
+    38:    exponent = t4
+    39:    t6 = 0.0
+    40:    result = t6
+    41:    t8 = 0
+    42:    if exponent < t8 goto 43
+    43:    goto 47
+
+    44: main.IF$0: 
+    45:    t0 = -exponent
+    46:    exponent = t0
+    47:    goto 52
+
+    48: main.ELSE$1: 
+    49:    param base
+    50:    param exponent
+    51:    t0 = call power, 2
+    52:    result = t0
+    53:    t9 = 2
+    54:    t10 = num % t9
+    55:    t11 = 0
+    56:    if t10 == t11 goto 57
+    57:    goto 76
+
+    58: main.IF$2: 
+    59:    t0 = 0
+    60:    if num > t0 goto 61
+    61:    goto 65
+
+    62: main.IF$2.IF$3: 
+    63:    t0 = 1
+    64:    num = t0
+    65:    goto 94
+    66:    t1 = 0
+    67:    if num < t1 goto 68
+    68:    goto 72
+
+    69: main.IF$2.IF$4: 
+    70:    t0 = 1
+    71:    num = t0
+    72:    goto 94
+
+    73: main.IF$2.ELSE$5: 
+    74:    t0 = 0
+    75:    num = t0
+    76:    goto 94
+
+    77: main.ELSE$6: 
+    78:    t0 = 0
+    79:    if num > t0 goto 80
+    80:    goto 84
+
+    81: main.ELSE$6.IF$7: 
+    82:    t0 = 2
+    83:    num = t0
+    84:    goto 94
+    85:    t1 = 0
+    86:    if num < t1 goto 87
+    87:    goto 91
+
+    88: main.ELSE$6.IF$8: 
+    89:    t0 = 2
+    90:    num = t0
+    91:    goto 94
+
+    92: main.ELSE$6.ELSE$9: 
+    93:    t0 = 0
+    94:    num = t0
+    95:    t12 = 0
+    96:    return t12
+

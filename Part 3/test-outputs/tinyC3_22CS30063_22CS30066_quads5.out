@@ -1,0 +1,80 @@
+
+    1: findMax: 
+    2:    if num1 > num2 goto 3
+    3:    goto 6
+
+    4: findMax.IF$0: 
+    5:    result = num1
+    6:    goto 8
+
+    7: findMax.ELSE$1: 
+    8:    result = num2
+    9:    t0 = 0
+    10:    if result < t0 goto 11
+    11:    goto 15
+
+    12: findMax.IF$2: 
+    13:    t0 = -result
+    14:    result = t0
+    15:    goto 15
+    16:    return result
+
+    17: findMin: 
+    18:    if num1 > num2 goto 20
+    19:    goto 21
+    20:    goto 25
+    21:    goto 23
+    22:    t0 = num1
+    23:    goto 25
+    24:    t0 = num2
+    25:    goto 25
+    26:    result = t0
+    27:    return result
+
+    28: displayMessage: 
+    29:    return 
+
+    30: compareNumbers: 
+    31:    xIsGreater = t0
+    32:    yIsGreater = t1
+    33:    if x > y goto 35
+    34:    goto 38
+    35:    goto 44
+    36:    param xIsGreater
+    37:    t2 = call displayMessage, 1
+    38:    goto 42
+    39:    param yIsGreater
+    40:    t3 = call displayMessage, 1
+    41:    t4 = t3
+    42:    goto 44
+    43:    t4 = t2
+    44:    goto 44
+    45:    return 
+
+    46: calculateSum: 
+    47:    param numA
+    48:    param numB
+    49:    t0 = call findMin, 2
+    50:    minValue = t0
+    51:    param numA
+    52:    param numB
+    53:    t1 = call findMax, 2
+    54:    maxValue = t1
+    55:    t2 = 0
+    56:    temp = t2
+    57:    t3 = temp + minValue
+    58:    sum = t3
+    59:    return sum
+
+    60: main: 
+    61:    t0 = 7
+    62:    firstNum = t0
+    63:    t2 = 35
+    64:    secondNum = t2
+    65:    param firstNum
+    66:    param secondNum
+    67:    t4 = call calculateSum, 2
+    68:    result = t4
+    69:    t6 = 0
+    70:    return t6
+

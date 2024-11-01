@@ -1,0 +1,133 @@
+    1:    t0 = 3
+    2:    arraySize = t0
+
+    3: generateSubmatrix: 
+    4:    t0 = 0
+    5:    i = t0
+    6:    t1 = 0
+    7:    j = t1
+    8:    t2 = 0
+    9:    subRow = t2
+    10:    t3 = 0
+    11:    subCol = t3
+
+    12: generateSubmatrix.FOR$0: 
+    13:    t0 = 0
+    14:    subRow = t0
+    15:    if subRow < size goto 19
+    16:    goto 55
+    17:    t2 = subRow
+    18:    subRow = subRow + 1
+    19:    goto 14
+
+    20: generateSubmatrix.FOR$0.FOR$1: 
+    21:    t0 = 0
+    22:    subCol = t0
+    23:    if subCol < size goto 27
+    24:    goto 16
+    25:    t2 = subCol
+    26:    subCol = subCol + 1
+    27:    goto 22
+    28:    if subRow != row goto 29
+    29:    goto 43
+    30:    if subCol != col goto 31
+    31:    goto 43
+
+    32: generateSubmatrix.FOR$0.FOR$1.IF$2: 
+    33:    t0 = i * 0
+    34:    t1 = j
+    35:    j = j + 1
+    36:    t3 = t1 * 4
+    37:    t2 = t0 + t3
+    38:    t4 = subRow * 0
+    39:    t6 = subCol * 4
+    40:    t5 = t4 + t6
+    41:    t7 = matrix[t5]
+    42:    submatrix[t2] = t7
+    43:    goto 43
+    44:    t3 = 1
+    45:    t4 = size - t3
+    46:    if j == t4 goto 47
+    47:    goto 24
+
+    48: generateSubmatrix.FOR$0.FOR$1.IF$3: 
+    49:    t0 = 0
+    50:    j = t0
+    51:    t2 = i
+    52:    i = i + 1
+    53:    goto 24
+    54:    goto 24
+    55:    goto 16
+    56:    return 
+
+    57: main: 
+    58:    t0 = 4
+    59:    t1 = 0
+    60:    index = t1
+
+    61: main.WHILE$0: 
+    62:    t0 = 4
+    63:    if index < t0 goto 64
+    64:    goto 69
+    65:    t1 = index
+    66:    index = index + 1
+    67:    t2 = t1 * 4
+    68:    numbers[t2] = index
+    69:    goto 61
+    70:    t2 = 0
+    71:    total = t2
+    72:    t3 = 4
+    73:    arraySize = t3
+    74:    t4 = 0
+    75:    index = t4
+    76:    t6 = index
+    77:    index = index + 1
+    78:    t7 = t6 * 4
+    79:    t8 = numbers[t7]
+    80:    t9 = total + t8
+    81:    total = t9
+    82:    if index < arraySize goto 75
+    83:    goto 83
+    84:    t11 = 0
+    85:    row = t11
+    86:    t12 = 0
+    87:    col = t12
+    88:    t13 = 10
+    89:    value = t13
+
+    90: main.FOR$1: 
+    91:    t0 = 0
+    92:    row = t0
+    93:    if row < arraySize goto 97
+    94:    goto 113
+    95:    t2 = row
+    96:    row = row + 1
+    97:    goto 92
+
+    98: main.FOR$1.FOR$2: 
+    99:    t0 = 0
+    100:    col = t0
+    101:    if col < arraySize goto 105
+    102:    goto 94
+    103:    t2 = col
+    104:    col = col + 1
+    105:    goto 100
+    106:    t3 = row * 16
+    107:    t5 = col * 4
+    108:    t4 = t3 + t5
+    109:    t6 = value
+    110:    value = value + 1
+    111:    matrix[t4] = t6
+    112:    goto 102
+    113:    goto 94
+    114:    param matrix
+    115:    param submatrix
+    116:    t14 = 0
+    117:    param t14
+    118:    t15 = 0
+    119:    param t15
+    120:    param arraySize
+    121:    t16 = call generateSubmatrix, 5
+    122:    t17 = 0
+    123:    return t17
+

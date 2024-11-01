@@ -1,0 +1,11 @@
+Deliverables ---
+
+
+TinyC3_rolls.l   -- flex file
+TinyC3_rolls.y   -- yacc file
+TinyC3_rolls_translator.h  --- Datastructures and class definitons with method and global functions prototypes
+TinyC3_rolls_translator.cxx --- implementations of .h file and the main function
+TinyC3_rolls_test<id>.c --- test inputs (5)
+Tiny3_rolls_output<id>.out --- test output (5)
+
+

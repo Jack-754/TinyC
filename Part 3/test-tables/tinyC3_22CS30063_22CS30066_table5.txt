@@ -1,0 +1,126 @@
+Symbol Table: Global                                            Parent Table: NULL                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+findMax                  int                      -                   4              0              findMax
+findMin                  int                      -                   4              4              findMin
+displayMessage           void                     -                   0              8              displayMessage
+compareNumbers           void                     -                   0              8              compareNumbers
+calculateSum             int                      -                   4              8              calculateSum
+main                     int                      -                   4              12             main
+
+
+
+Symbol Table: findMax                                           Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+num1                     int                      -                   4              0              NULL
+num2                     int                      -                   4              4              NULL
+return                   int                      -                   4              8              NULL
+result                   int                      -                   4              12             NULL
+findMax.IF$0             block                    -                   4              16             findMax.IF$0
+findMax.ELSE$1           block                    -                   4              20             findMax.ELSE$1
+t0                       int                      0                   4              24             NULL
+findMax.IF$2             block                    -                   4              28             findMax.IF$2
+
+
+
+Symbol Table: findMax.IF$0                                      Parent Table: findMax                                           
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      -                   4              0              NULL
+
+
+
+Symbol Table: findMax.ELSE$1                                    Parent Table: findMax                                           
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      -                   4              0              NULL
+
+
+
+Symbol Table: findMax.IF$2                                      Parent Table: findMax                                           
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      -                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+
+
+
+Symbol Table: findMin                                           Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+num1                     int                      -                   4              0              NULL
+num2                     int                      -                   4              4              NULL
+return                   int                      -                   4              8              NULL
+result                   int                      -                   4              12             NULL
+t0                       int                      -                   4              16             NULL
+t1                       int                      -                   4              20             NULL
+
+
+
+Symbol Table: displayMessage                                    Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+message                  ptr(char)                -                   4              0              NULL
+
+
+
+Symbol Table: compareNumbers                                    Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+x                        int                      -                   4              0              NULL
+y                        int                      -                   4              4              NULL
+xIsGreater               arr(0, char)             "x is greater"      0              8              NULL
+t0                       ptr(char)                "x is greater"      4              8              NULL
+yIsGreater               arr(0, char)             "y is greater"      0              12             NULL
+t1                       ptr(char)                "y is greater"      4              12             NULL
+t2                       void                     -                   0              16             NULL
+t3                       void                     -                   0              16             NULL
+t4                       void                     -                   0              16             NULL
+
+
+
+Symbol Table: calculateSum                                      Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+numA                     int                      -                   4              0              NULL
+numB                     int                      -                   4              4              NULL
+return                   int                      -                   4              8              NULL
+minValue                 int                      -                   4              12             NULL
+t0                       int                      -                   4              16             NULL
+maxValue                 int                      -                   4              20             NULL
+t1                       int                      -                   4              24             NULL
+temp                     int                      0                   4              28             NULL
+t2                       int                      0                   4              32             NULL
+sum                      int                      -                   4              36             NULL
+t3                       int                      -                   4              40             NULL
+
+
+
+Symbol Table: main                                              Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+return                   int                      -                   4              0              NULL
+firstNum                 int                      -                   4              4              NULL
+secondNum                int                      -                   4              8              NULL
+result                   int                      -                   4              12             NULL
+t0                       int                      7                   4              16             NULL
+t1                       int                      -                   4              20             NULL
+t2                       int                      35                  4              24             NULL
+t3                       int                      -                   4              28             NULL
+t4                       int                      -                   4              32             NULL
+t5                       int                      -                   4              36             NULL
+t6                       int                      0                   4              40             NULL
+
+
+

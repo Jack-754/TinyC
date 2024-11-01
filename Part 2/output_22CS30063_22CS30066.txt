@@ -1,0 +1,206 @@
+The Parse Tree:
+START SYMBOL
+  translation_unit
+    external_declaration
+      function_definition
+        declaration_specifiers
+          type specifier
+            T: KEYWORD,  int
+          declaration_specifiers_opt
+            (empty transition)
+        declarator
+          pointer_opt
+            (empty transition)
+          direct_declarator
+            direct_declarator
+              T: IDENTIFIER,  main
+            T: PUNCTUATOR,  (
+            identifier_list_opt
+              (empty transition)
+            T: PUNCTUATOR,  )
+        declaration_list_opt
+          (empty transition)
+        compound_statement
+          T: PUNCTUATOR,  {
+          block_item_list_opt
+            block_item_list
+              block_item_list
+                block_item
+                  declaration
+                    declaration_specifiers
+                      type specifier
+                        T: KEYWORD,  int
+                      declaration_specifiers_opt
+                        (empty transition)
+                    init_declarator_list_opt
+                      init_declarator_list
+                        init_declarator
+                          declarator
+                            pointer_opt
+                              (empty transition)
+                            direct_declarator
+                              direct_declarator
+                                direct_declarator
+                                  direct_declarator
+                                    T: IDENTIFIER,  a
+                                  T: PUNCTUATOR,  [
+                                  type_qualifier_list_opt
+                                    (empty transition)
+                                  assignment_expression_opt
+                                    assignment_expression
+                                      conditional_expression
+                                        logical_OR_expression
+                                          logical_AND_expression
+                                            inclusive_OR_expression
+                                              exclusive_OR_expression
+                                                AND_expression
+                                                  equality_expression
+                                                    relational_expression
+                                                      shift_expression
+                                                        additive_expression
+                                                          multiplicative_expression
+                                                            cast_expression
+                                                              unary_expression
+                                                                postfix_expression
+                                                                  primary_expression
+                                                                    T: CONSTANT,  4
+                                  T: PUNCTUATOR,  ]
+                                T: PUNCTUATOR,  [
+                                type_qualifier_list_opt
+                                  (empty transition)
+                                assignment_expression_opt
+                                  assignment_expression
+                                    conditional_expression
+                                      logical_OR_expression
+                                        logical_AND_expression
+                                          inclusive_OR_expression
+                                            exclusive_OR_expression
+                                              AND_expression
+                                                equality_expression
+                                                  relational_expression
+                                                    shift_expression
+                                                      additive_expression
+                                                        multiplicative_expression
+                                                          cast_expression
+                                                            unary_expression
+                                                              postfix_expression
+                                                                primary_expression
+                                                                  T: CONSTANT,  5
+                                T: PUNCTUATOR,  ]
+                              T: PUNCTUATOR,  [
+                              type_qualifier_list_opt
+                                (empty transition)
+                              assignment_expression_opt
+                                assignment_expression
+                                  conditional_expression
+                                    logical_OR_expression
+                                      logical_AND_expression
+                                        inclusive_OR_expression
+                                          exclusive_OR_expression
+                                            AND_expression
+                                              equality_expression
+                                                relational_expression
+                                                  shift_expression
+                                                    additive_expression
+                                                      multiplicative_expression
+                                                        cast_expression
+                                                          unary_expression
+                                                            postfix_expression
+                                                              primary_expression
+                                                                T: CONSTANT,  7
+                              T: PUNCTUATOR,  ]
+                    T: PUNCTUATOR,  ;
+              block_item
+                statement
+                  expression_statement
+                    expression_opt
+                      expression
+                        assignment_expression
+                          unary_expression
+                            postfix_expression
+                              postfix_expression
+                                postfix_expression
+                                  postfix_expression
+                                    primary_expression
+                                      T: IDENTIFIER,  a
+                                  T: PUNCTUATOR,  [
+                                  expression
+                                    assignment_expression
+                                      conditional_expression
+                                        logical_OR_expression
+                                          logical_AND_expression
+                                            inclusive_OR_expression
+                                              exclusive_OR_expression
+                                                AND_expression
+                                                  equality_expression
+                                                    relational_expression
+                                                      shift_expression
+                                                        additive_expression
+                                                          multiplicative_expression
+                                                            cast_expression
+                                                              unary_expression
+                                                                postfix_expression
+                                                                  primary_expression
+                                                                    T: CONSTANT,  2
+                                  T: PUNCTUATOR,  ]
+                                T: PUNCTUATOR,  [
+                                expression
+                                  assignment_expression
+                                    conditional_expression
+                                      logical_OR_expression
+                                        logical_AND_expression
+                                          inclusive_OR_expression
+                                            exclusive_OR_expression
+                                              AND_expression
+                                                equality_expression
+                                                  relational_expression
+                                                    shift_expression
+                                                      additive_expression
+                                                        multiplicative_expression
+                                                          cast_expression
+                                                            unary_expression
+                                                              postfix_expression
+                                                                primary_expression
+                                                                  T: CONSTANT,  3
+                                T: PUNCTUATOR,  ]
+                              T: PUNCTUATOR,  [
+                              expression
+                                assignment_expression
+                                  conditional_expression
+                                    logical_OR_expression
+                                      logical_AND_expression
+                                        inclusive_OR_expression
+                                          exclusive_OR_expression
+                                            AND_expression
+                                              equality_expression
+                                                relational_expression
+                                                  shift_expression
+                                                    additive_expression
+                                                      multiplicative_expression
+                                                        cast_expression
+                                                          unary_expression
+                                                            postfix_expression
+                                                              primary_expression
+                                                                T: CONSTANT,  4
+                              T: PUNCTUATOR,  ]
+                          assignment_operator
+                            T: PUNCTUATOR,  =
+                          assignment_expression
+                            conditional_expression
+                              logical_OR_expression
+                                logical_AND_expression
+                                  inclusive_OR_expression
+                                    exclusive_OR_expression
+                                      AND_expression
+                                        equality_expression
+                                          relational_expression
+                                            shift_expression
+                                              additive_expression
+                                                multiplicative_expression
+                                                  cast_expression
+                                                    unary_expression
+                                                      postfix_expression
+                                                        primary_expression
+                                                          T: CONSTANT,  1
+                    T: PUNCTUATOR,  ;
+          T: PUNCTUATOR,  }

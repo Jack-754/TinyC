@@ -1,0 +1,52 @@
+    1:    t0 = 3.14159265
+    2:    pi = t0
+    3:    t1 = 5
+    4:    t2 = 3
+    5:    t3 = 3
+    6:    t4 = 30
+    7:    age = t4
+
+    8: printMessage: 
+    9:    t0 = 42
+    10:    t1 = num + t0
+    11:    t2 = int2float(t1)
+    12:    val = t2
+    13:    return 
+
+    14: main: 
+    15:    t0 = 10
+    16:    apples = t0
+    17:    t1 = 3
+    18:    bananas = t1
+    19:    t2 = 'M'
+    20:    initial = t2
+    21:    t3 = 'A'
+    22:    grade = t3
+    23:    t4 = apples + bananas
+    24:    number1 = t4
+    25:    t6 = apples - bananas
+    26:    number2 = t6
+    27:    t8 = apples * bananas
+    28:    result1 = t8
+    29:    t10 = apples / bananas
+    30:    result2 = t10
+    31:    t12 = apples % bananas
+    32:    quotient = t12
+    33:    t14 = apples & bananas
+    34:    remainder = t14
+    35:    t16 = 'B'
+    36:    t17 = grade | t16
+    37:    t18 = int2char(t17)
+    38:    grade = t18
+    39:    t19 = 2
+    40:    t20 = number1 >> t19
+    41:    bananas = t20
+    42:    t22 = 1
+    43:    t23 = number2 << t22
+    44:    apples = t23
+    45:    param apples
+    46:    param pi
+    47:    t25 = call printMessage, 2
+    48:    t26 = 0
+    49:    return t26
+
