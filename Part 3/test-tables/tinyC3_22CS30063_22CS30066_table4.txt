@@ -1,0 +1,182 @@
+Symbol Table: Global                                            Parent Table: NULL                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+power                    float                    -                   8              0              power
+main                     int                      -                   4              8              main
+
+
+
+Symbol Table: power                                             Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+base                     float                    -                   8              0              NULL
+exponent                 int                      -                   4              8              NULL
+return                   float                    -                   8              12             NULL
+t0                       int                      0                   4              20             NULL
+power.IF$0               block                    -                   4              24             power.IF$0
+t1                       int                      0                   4              28             NULL
+power.IF$1               block                    -                   4              32             power.IF$1
+power.ELSE$2             block                    -                   4              36             power.ELSE$2
+
+
+
+Symbol Table: power.IF$0                                        Parent Table: power                                             
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       float                    1.0                 8              0              NULL
+
+
+
+Symbol Table: power.IF$1                                        Parent Table: power                                             
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      1                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+t2                       float                    -                   8              8              NULL
+t3                       float                    -                   8              16             NULL
+
+
+
+Symbol Table: power.ELSE$2                                      Parent Table: power                                             
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       float                    1.0                 8              0              NULL
+t1                       int                      -                   4              8              NULL
+t2                       int                      1                   4              12             NULL
+t3                       int                      -                   4              16             NULL
+t4                       float                    -                   8              20             NULL
+t5                       float                    -                   8              28             NULL
+t6                       float                    -                   8              36             NULL
+
+
+
+Symbol Table: main                                              Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+return                   int                      -                   4              0              NULL
+num                      int                      -                   4              4              NULL
+base                     float                    -                   8              8              NULL
+exponent                 int                      -                   4              16             NULL
+result                   float                    -                   8              20             NULL
+t0                       int                      5                   4              28             NULL
+t1                       int                      -                   4              32             NULL
+t2                       float                    2.0                 8              36             NULL
+t3                       float                    -                   8              44             NULL
+t4                       int                      3                   4              52             NULL
+t5                       int                      -                   4              56             NULL
+t6                       float                    0.0                 8              60             NULL
+t7                       float                    -                   8              68             NULL
+t8                       int                      0                   4              76             NULL
+main.IF$0                block                    -                   4              80             main.IF$0
+main.ELSE$1              block                    -                   4              84             main.ELSE$1
+t9                       int                      2                   4              88             NULL
+t10                      int                      -                   4              92             NULL
+t11                      int                      0                   4              96             NULL
+main.IF$2                block                    -                   4              100            main.IF$2
+main.ELSE$6              block                    -                   4              104            main.ELSE$6
+t12                      int                      0                   4              108            NULL
+
+
+
+Symbol Table: main.IF$0                                         Parent Table: main                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      -                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+
+
+
+Symbol Table: main.ELSE$1                                       Parent Table: main                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       float                    -                   8              0              NULL
+t1                       float                    -                   8              8              NULL
+
+
+
+Symbol Table: main.IF$2                                         Parent Table: main                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+main.IF$2.IF$3           block                    -                   4              4              main.IF$2.IF$3
+t1                       int                      0                   4              8              NULL
+main.IF$2.IF$4           block                    -                   4              12             main.IF$2.IF$4
+main.IF$2.ELSE$5         block                    -                   4              16             main.IF$2.ELSE$5
+
+
+
+Symbol Table: main.IF$2.IF$3                                    Parent Table: main.IF$2                                         
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      1                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+
+
+
+Symbol Table: main.IF$2.IF$4                                    Parent Table: main.IF$2                                         
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      1                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+
+
+
+Symbol Table: main.IF$2.ELSE$5                                  Parent Table: main.IF$2                                         
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+
+
+
+Symbol Table: main.ELSE$6                                       Parent Table: main                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+main.ELSE$6.IF$7         block                    -                   4              4              main.ELSE$6.IF$7
+t1                       int                      0                   4              8              NULL
+main.ELSE$6.IF$8         block                    -                   4              12             main.ELSE$6.IF$8
+main.ELSE$6.ELSE$9       block                    -                   4              16             main.ELSE$6.ELSE$9
+
+
+
+Symbol Table: main.ELSE$6.IF$7                                  Parent Table: main.ELSE$6                                       
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      2                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+
+
+
+Symbol Table: main.ELSE$6.IF$8                                  Parent Table: main.ELSE$6                                       
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      2                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+
+
+
+Symbol Table: main.ELSE$6.ELSE$9                                Parent Table: main.ELSE$6                                       
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+
+
+

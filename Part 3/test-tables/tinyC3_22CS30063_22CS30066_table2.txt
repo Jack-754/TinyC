@@ -1,0 +1,157 @@
+Symbol Table: Global                                            Parent Table: NULL                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+arraySize                int                      4                   4              0              NULL
+t0                       int                      3                   4              4              NULL
+generateSubmatrix        void                     -                   0              8              generateSubmatrix
+main                     int                      -                   4              8              main
+
+
+
+Symbol Table: generateSubmatrix                                 Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+matrix                   arr(0, arr(0, int))      -                   0              0              NULL
+arraySize                int                      -                   4              0              NULL
+submatrix                arr(0, arr(0, int))      -                   0              4              NULL
+row                      int                      -                   4              4              NULL
+col                      int                      -                   4              8              NULL
+size                     int                      -                   4              12             NULL
+i                        int                      0                   4              16             NULL
+t0                       int                      0                   4              20             NULL
+j                        int                      0                   4              24             NULL
+t1                       int                      0                   4              28             NULL
+subRow                   int                      0                   4              32             NULL
+t2                       int                      0                   4              36             NULL
+subCol                   int                      0                   4              40             NULL
+t3                       int                      0                   4              44             NULL
+generateSubmatrix.FOR$0  block                    -                   4              48             generateSubmatrix.FOR$0
+
+
+
+Symbol Table: generateSubmatrix.FOR$0                           Parent Table: generateSubmatrix                                 
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+t2                       int                      -                   4              8              NULL
+generateSubmatrix.FOR$0.FOR$1block                    -                   4              12             generateSubmatrix.FOR$0.FOR$1
+
+
+
+Symbol Table: generateSubmatrix.FOR$0.FOR$1                     Parent Table: generateSubmatrix.FOR$0                           
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+t2                       int                      -                   4              8              NULL
+generateSubmatrix.FOR$0.FOR$1.IF$2block                    -                   4              12             generateSubmatrix.FOR$0.FOR$1.IF$2
+t3                       int                      1                   4              16             NULL
+t4                       int                      -                   4              20             NULL
+generateSubmatrix.FOR$0.FOR$1.IF$3block                    -                   4              24             generateSubmatrix.FOR$0.FOR$1.IF$3
+
+
+
+Symbol Table: generateSubmatrix.FOR$0.FOR$1.IF$2                Parent Table: generateSubmatrix.FOR$0.FOR$1                     
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      -                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+t2                       int                      -                   4              8              NULL
+t3                       int                      -                   4              12             NULL
+t4                       int                      -                   4              16             NULL
+t5                       int                      -                   4              20             NULL
+t6                       int                      -                   4              24             NULL
+t7                       int                      -                   4              28             NULL
+t8                       int                      -                   4              32             NULL
+
+
+
+Symbol Table: generateSubmatrix.FOR$0.FOR$1.IF$3                Parent Table: generateSubmatrix.FOR$0.FOR$1                     
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+t2                       int                      -                   4              8              NULL
+
+
+
+Symbol Table: main                                              Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+return                   int                      -                   4              0              NULL
+numbers                  arr(4, int)              -                   16             4              NULL
+t0                       int                      4                   4              20             NULL
+index                    int                      0                   4              24             NULL
+t1                       int                      0                   4              28             NULL
+main.WHILE$0             block                    -                   4              32             main.WHILE$0
+total                    int                      0                   4              36             NULL
+t2                       int                      0                   4              40             NULL
+t3                       int                      4                   4              44             NULL
+t4                       int                      0                   4              48             NULL
+t5                       int                      -                   4              52             NULL
+t6                       int                      -                   4              56             NULL
+t7                       int                      -                   4              60             NULL
+t8                       int                      -                   4              64             NULL
+t9                       int                      -                   4              68             NULL
+t10                      int                      -                   4              72             NULL
+matrix                   arr(4, arr(4, int))      -                   64             76             NULL
+row                      int                      0                   4              140            NULL
+t11                      int                      0                   4              144            NULL
+col                      int                      0                   4              148            NULL
+t12                      int                      0                   4              152            NULL
+value                    int                      10                  4              156            NULL
+t13                      int                      10                  4              160            NULL
+main.FOR$1               block                    -                   4              164            main.FOR$1
+submatrix                arr(4, arr(4, int))      -                   64             168            NULL
+t14                      int                      0                   4              232            NULL
+t15                      int                      0                   4              236            NULL
+t16                      void                     -                   0              240            NULL
+t17                      int                      0                   4              240            NULL
+
+
+
+Symbol Table: main.WHILE$0                                      Parent Table: main                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      4                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+t2                       int                      -                   4              8              NULL
+t3                       int                      -                   4              12             NULL
+
+
+
+Symbol Table: main.FOR$1                                        Parent Table: main                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+t2                       int                      -                   4              8              NULL
+main.FOR$1.FOR$2         block                    -                   4              12             main.FOR$1.FOR$2
+
+
+
+Symbol Table: main.FOR$1.FOR$2                                  Parent Table: main.FOR$1                                        
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+t0                       int                      0                   4              0              NULL
+t1                       int                      -                   4              4              NULL
+t2                       int                      -                   4              8              NULL
+t3                       int                      -                   4              12             NULL
+t4                       int                      -                   4              16             NULL
+t5                       int                      -                   4              20             NULL
+t6                       int                      -                   4              24             NULL
+t7                       int                      -                   4              28             NULL
+
+
+

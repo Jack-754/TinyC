@@ -4,7 +4,7 @@
     void yyerror(char *);
     int yylex(); 
     
-    extern symbol_table* current_symbol_table;
+    extern symbol_table* currentSymbolTable;
     /*
         Lex file
         Group-
@@ -101,7 +101,7 @@ string_literal          \"{s_char_sequence}?\"
 {string_literal}        { yylval.sValue = strdup(yytext) ;return STRING_LITERAL;}
 {integer_constant}      { yylval.iValue = atoi(strdup(yytext)) ;return CONSTANT_INT;}
 {floating_constant}     { yylval.sValue = strdup(yytext); return CONSTANT_FLOAT;}
-{identifier}            { yylval.symb = current_symbol_table->lookup(yytext); return IDENTIFIER;}
+{identifier}            { yylval.symb = currentSymbolTable->lookup(yytext); return IDENTIFIER;}
 
 
 "++"            { return PLUS_FIX;}

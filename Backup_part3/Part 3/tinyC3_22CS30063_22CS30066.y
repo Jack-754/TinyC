@@ -13,12 +13,12 @@
     void yyerror(char *);
     int yylex();
 
-    extern symbol* current_symbol;
-    extern symbol_table* current_symbol_table;
-    extern symbol_table* global_symbol_table;
-    extern quad_array quad_table;
-    extern int symbol_table_cnt;
-    extern string block_name;
+    extern symbol* currentSymbol;
+    extern symbol_table* currentSymbolTable;
+    extern symbol_table* globalSymbolTable;
+    extern quad_list quadTable;
+    extern int SymbolTableCount;
+    extern string blockName;
     extern string data_type;
 %}
 
@@ -27,7 +27,7 @@
     char *sValue;   
     symbol *symb;       
     symbol_type *symbType;   
-    EXPR *expr;   
+    E *expr;   
     S *statem;  
     A *arr; 
     int instr_ind;  
@@ -63,49 +63,43 @@
 %type <instr_ind> M 
 %type <statem> N    
 
-/* %start translation_unit */
+%start translation_unit
 
 %nonassoc RP
 %nonassoc ELSE
 
-%start Start
 
 %%
 
-Start: translation_unit
-    | {printf("THE FILE IS EMPTY.\n");}
-    ;
-
-
 /* Expressions */
 primary_expression  : IDENTIFIER    {
-                        $$ = new EXPR();                // New expression
-                        $$->addr = $1;                  // Store pointer in Symbol Table
-                        $$->exprType = "not_bool";      // Non bool expression
+                        $$ = new E();  // New expression
+                        $$->addr = $1;      // Store pointer in Symbol Table
+                        $$->exprType = "not_bool";   // Non bool expression
                     }
                     | constant      {
-                        $$ = new EXPR();                // New expression
-                        $$->addr = $1;                  // Store pointer in Symbol Table
+                        $$ = new E();  // New expression
+                        $$->addr = $1;      // Store pointer in Symbol Table
                     }
                     | STRING_LITERAL       {
-                        $$ = new EXPR();                // New expression
-                        $$->addr = symbol_table::gentemp(new symbol_type("ptr"), $1);   // Create new temp with type ptr and store value
+                        $$ = new E();  // New expression
+                        $$->addr = symbol_table::gentemp(new symbol_type("ptr"), $1); // Create new temp with type ptr and store value
                         $$->addr->type->sub_type = new symbol_type("char");
                     }
-                    | LP expression RP { $$ = $2; }     // Assignment
+                    | LP expression RP { $$ = $2; } // Assignment
                     ;
 
 constant            : CONSTANT_INT  {
-                        $$ = symbol_table::gentemp(new symbol_type("int"), convInt2Str($1)); // temp stores constant
-                        quad_table.emit("=", $$->name, $1);
+                        $$ = symbol_table::gentemp(new symbol_type("int"), convIntToStr($1)); // Create new temp with type int and store value
+                        quadTable.emit("=", $$->name, $1);
                     }
                     | CONSTANT_FLOAT{
-                        $$ = symbol_table::gentemp(new symbol_type("float"), string($1));  // temp stores constant
-                        quad_table.emit("=", $$->name, string($1));
+                        $$ = symbol_table::gentemp(new symbol_type("float"), string($1));  // Create new temp with type double and store value
+                        quadTable.emit("=", $$->name, string($1));
                     }
                     | CONSTANT_CHAR {
-                        $$ = symbol_table::gentemp(new symbol_type("char"), string($1));   // temp stores constant
-                        quad_table.emit("=", $$->name, string($1));
+                        $$ = symbol_table::gentemp(new symbol_type("char"), string($1));   // Create new temp with type char and store value
+                        quadTable.emit("=", $$->name, string($1));
                     }
                     ;
 
@@ -113,14 +107,12 @@ constant            : CONSTANT_INT  {
 
 postfix_expression:
       primary_expression  {
-            // convert it to A type
             $$ = new A();   
             $$->location = $1->addr;   
             $$->type = $1->addr->type;  
             $$->addr = $$->location;   
         }
     | postfix_expression LBP expression RBP  { 
-            // convert to a type
       $$ = new A();   
       $$->type = $1->type->sub_type;  
       $$->location = $1->location;  
@@ -128,53 +120,45 @@ postfix_expression:
       $$->sub_type = "arr"; 
       if ($1->sub_type == "arr") { 
           symbol* temp = symbol_table::gentemp(new symbol_type("int"));
-          int sz = type_size($$->type);  
-          // calculation  for location
-          quad_table.emit("*", temp->name, $3->addr->name, convInt2Str(sz));
-          quad_table.emit("+", $$->addr->name, $1->addr->name, temp->name);
+          int sz = sizeOfType($$->type);  
+          quadTable.emit("*", temp->name, $3->addr->name, convIntToStr(sz));
+          quadTable.emit("+", $$->addr->name, $1->addr->name, temp->name);
         }
       else {
-          // calculation for location
-          int sz = type_size($$->type);  
-          quad_table.emit("*", $$->addr->name, $3->addr->name, convInt2Str(sz)); 
+          int sz = sizeOfType($$->type);  
+          quadTable.emit("*", $$->addr->name, $3->addr->name, convIntToStr(sz)); 
       }
     }
     | postfix_expression LP argument_expression_list_opt RP  { 
-        // function call
       $$ = new A();  
       $$->location = symbol_table::gentemp($1->type); 
-      quad_table.emit("call", $$->location->name, $1->location->name, convInt2Str($3)); 
+      quadTable.emit("call", $$->location->name, $1->location->name, convIntToStr($3)); 
     }
     | postfix_expression DOT IDENTIFIER                             { /*Given: Not needed */ }
     | postfix_expression ARROW IDENTIFIER                           { /*Given: Not needed */ }
     | postfix_expression PLUS_FIX { 
-        // increment
           $$ = new A();   
           $$->location = symbol_table::gentemp($1->location->type);    
-          quad_table.emit("=", $$->location->name, $1->location->name);    
-          quad_table.emit("+", $1->location->name, $1->location->name, "1");   
+          quadTable.emit("=", $$->location->name, $1->location->name);    
+          quadTable.emit("+", $1->location->name, $1->location->name, "1");   
     }
     | postfix_expression SUB_FIX { 
-        // decrement
           $$ = new A();   
           $$->location = symbol_table::gentemp($1->location->type);    
-          quad_table.emit("=", $$->location->name, $1->location->name);    
-          quad_table.emit("-", $1->location->name, $1->location->name, "1");  
+          quadTable.emit("=", $$->location->name, $1->location->name);    
+          quadTable.emit("-", $1->location->name, $1->location->name, "1");  
       }
     | LP type_name RP LCP initializer_list RCP                      { /*Given: Not needed */ }
     | LP type_name RP LCP initializer_list COMMA RCP                { /*Given: Not needed */ }
     ;
 
 argument_expression_list:
-      assignment_expression { 
-            // call the parameter
-            $$ = 1;
-            quad_table.emit("param", $1->addr->name);  
+      assignment_expression { $$ = 1;
+          quadTable.emit("param", $1->addr->name);  
         }
     | argument_expression_list COMMA assignment_expression { 
-            // call the parameter and increase parameter count
         $$ = $1 + 1;
-        quad_table.emit("param", $3->addr->name);
+        quadTable.emit("param", $3->addr->name);
     }
     ;
 
@@ -186,41 +170,38 @@ argument_expression_list_opt:
 unary_expression:
       postfix_expression                                            { $$ = $1;}
     | PLUS_FIX unary_expression                                     { 
-        // increament
-          quad_table.emit("+", $2->location->name, $2->location->name, "1");   
+          quadTable.emit("+", $2->location->name, $2->location->name, "1");   
           $$ = $2;    
     }
     | SUB_FIX unary_expression                                      { 
-        // decreament
-          quad_table.emit("-", $2->location->name, $2->location->name, "1");   
+          quadTable.emit("-", $2->location->name, $2->location->name, "1");   
           $$ = $2;    
     }
     | unary_operator cast_expression                                { 
-        // reference, pointer referenceing, unary operator like +,-,and bitwise opearators like !,~
           $$ = new A();
            if ($1 == '&') {
                $$->location = symbol_table::gentemp(new symbol_type("ptr")); 
                $$->location->type->sub_type = $2->location->type;
-               quad_table.emit("= &", $$->location->name, $2->location->name); 
+               quadTable.emit("= &", $$->location->name, $2->location->name); 
            }
            else if ($1 == '*') {
                $$->sub_type = "ptr"; // Pointer type
                $$->addr = symbol_table::gentemp($2->location->type->sub_type); 
                $$->location = $2->location;  
-               quad_table.emit("= *", $$->addr->name, $2->location->name); 
+               quadTable.emit("= *", $$->addr->name, $2->location->name); 
            }
            else if ($1 == '+') $$ = $2;
            else if ($1 == '-') {
                $$->location = symbol_table::gentemp(new symbol_type($2->location->type->base)); 
-               quad_table.emit("= -", $$->location->name, $2->location->name);
+               quadTable.emit("= -", $$->location->name, $2->location->name);
            }
            else if ($1 == '~')  {
                $$->location = symbol_table::gentemp(new symbol_type($2->location->type->base)); 
-               quad_table.emit("= ~", $$->location->name, $2->location->name);
+               quadTable.emit("= ~", $$->location->name, $2->location->name);
            }
            else if ($1 == '!') {
                $$->location = symbol_table::gentemp(new symbol_type($2->location->type->base)); 
-               quad_table.emit("= !", $$->location->name, $2->location->name);
+               quadTable.emit("= !", $$->location->name, $2->location->name);
           }
     }
     | SIZEOF unary_expression                                       { /*Given: Not needed */ }
@@ -239,19 +220,17 @@ unary_operator:
 cast_expression:
       unary_expression { $$ = $1; }
     | LP type_name RP cast_expression { 
-        // convert the type
         $$ = new A();
         $$->location = convType($4->location, data_type);
     }
     ;
 
-multiplicative_expression: // print a multiplication/div/modulus expression
+multiplicative_expression:
       cast_expression {
-        // convert back to expression
-        $$ = new EXPR(); 
+        $$ = new E(); 
         if ($1->sub_type == "arr") {
             $$->addr = symbol_table::gentemp($1->addr->type); 
-            quad_table.emit("=[]", $$->addr->name, $1->location->name, $1->addr->name); 
+            quadTable.emit("=[]", $$->addr->name, $1->location->name, $1->addr->name); 
         }
         else if($1->sub_type == "ptr") {
             $$->addr = $1->addr; 
@@ -260,9 +239,9 @@ multiplicative_expression: // print a multiplication/div/modulus expression
        }
     | multiplicative_expression STAR cast_expression {
           if (typecheck($1->addr, $3->location)) {
-              $$ = new EXPR();
+              $$ = new E();
               $$->addr = symbol_table::gentemp(new symbol_type($1->addr->type->base));
-              quad_table.emit("*", $$->addr->name, $1->addr->name, $3->location->name); 
+              quadTable.emit("*", $$->addr->name, $1->addr->name, $3->location->name); 
           }
           else {
               yyerror("Type mismatch");
@@ -270,9 +249,9 @@ multiplicative_expression: // print a multiplication/div/modulus expression
      }
     | multiplicative_expression DIV cast_expression { 
           if (typecheck($1->addr, $3->location)) {
-              $$ = new EXPR();
+              $$ = new E();
               $$->addr = symbol_table::gentemp(new symbol_type($1->addr->type->base));
-              quad_table.emit("/", $$->addr->name, $1->addr->name, $3->location->name); 
+              quadTable.emit("/", $$->addr->name, $1->addr->name, $3->location->name); 
           }
           else {
               yyerror("Type mismatch");
@@ -280,23 +259,24 @@ multiplicative_expression: // print a multiplication/div/modulus expression
     }
     | multiplicative_expression MOD cast_expression { 
           if (typecheck($1->addr, $3->location)) {
-              $$ = new EXPR();
+              $$ = new E();
               $$->addr = symbol_table::gentemp(new symbol_type($1->addr->type->base)); 
-              quad_table.emit("%", $$->addr->name, $1->addr->name, $3->location->name); 
+              quadTable.emit("%", $$->addr->name, $1->addr->name, $3->location->name); 
           }
           else {
               yyerror("Type mismatch");
           }
     }
+/* START */
     ;
 
-additive_expression: // print a additive/subtractive expression
+additive_expression:
       multiplicative_expression                                     { $$ = $1;}
     | additive_expression PLUS multiplicative_expression            { 
         if (typecheck($1->addr, $3->addr)) {
-            $$ = new EXPR();
+            $$ = new E();
             $$->addr = symbol_table::gentemp(new symbol_type($1->addr->type->base)); 
-            quad_table.emit("+", $$->addr->name, $1->addr->name, $3->addr->name); 
+            quadTable.emit("+", $$->addr->name, $1->addr->name, $3->addr->name); 
         }
         else {
             yyerror("Type mismatch");
@@ -304,9 +284,9 @@ additive_expression: // print a additive/subtractive expression
     }
     | additive_expression SUB multiplicative_expression  { 
         if (typecheck($1->addr, $3->addr)) {
-            $$ = new EXPR();
+            $$ = new E();
             $$->addr = symbol_table::gentemp(new symbol_type($1->addr->type->base)); 
-            quad_table.emit("-", $$->addr->name, $1->addr->name, $3->addr->name); 
+            quadTable.emit("-", $$->addr->name, $1->addr->name, $3->addr->name); 
         }
         else {
             yyerror("Type mismatch");
@@ -314,13 +294,13 @@ additive_expression: // print a additive/subtractive expression
     }
     ;
 
-shift_expression: // emit a shift expression
+shift_expression:
       additive_expression                                           { $$ = $1; }
     | shift_expression LOGICAL_LEFT_SHIFT additive_expression  { 
       if (typecheck($1->addr, $3->addr)) {
-            $$ = new EXPR();
+            $$ = new E();
             $$->addr = symbol_table::gentemp(new symbol_type($1->addr->type->base)); 
-            quad_table.emit("<<", $$->addr->name, $1->addr->name, $3->addr->name); 
+            quadTable.emit("<<", $$->addr->name, $1->addr->name, $3->addr->name); 
         }
         else {
             yyerror("Type mismatch");
@@ -328,9 +308,9 @@ shift_expression: // emit a shift expression
     }
     | shift_expression LOGICAL_RIGHT_SHIFT additive_expression  { 
       if (typecheck($1->addr, $3->addr)) {
-            $$ = new EXPR();
+            $$ = new E();
             $$->addr = symbol_table::gentemp(new symbol_type($1->addr->type->base)); 
-            quad_table.emit(">>", $$->addr->name, $1->addr->name, $3->addr->name); 
+            quadTable.emit(">>", $$->addr->name, $1->addr->name, $3->addr->name); 
         }
         else {
             yyerror("Type mismatch");
@@ -342,13 +322,12 @@ relational_expression:
       shift_expression   { $$ = $1;}
     | relational_expression REL_LT shift_expression  { 
         if (typecheck($1->addr, $3->addr)) {
-            // convert to bool
-            $$ = new EXPR();
+            $$ = new E();
             $$->exprType = "bool";   
-            $$->true_list = makelist(next_instruction()); // make truelist
-            $$->false_list = makelist(next_instruction()+1); // make falselist
-            quad_table.emit("<", "", $1->addr->name, $3->addr->name); // emit goto for true case
-            quad_table.emit("goto", ""); // emit goto for false case
+            $$->trueList = makelist(nextinstr()); 
+            $$->falseList = makelist(nextinstr()+1); 
+            quadTable.emit("<", "", $1->addr->name, $3->addr->name); 
+            quadTable.emit("goto", ""); 
         }
         else {
             yyerror("Type mismatch");
@@ -356,12 +335,12 @@ relational_expression:
     }
     | relational_expression REL_GT shift_expression  { 
       if (typecheck($1->addr, $3->addr)) {
-            $$ = new EXPR();
+            $$ = new E();
             $$->exprType = "bool";   
-            $$->true_list = makelist(next_instruction()); // make truelist
-            $$->false_list = makelist(next_instruction()+1); // make falselist
-            quad_table.emit(">", "", $1->addr->name, $3->addr->name); // emit goto for true case
-            quad_table.emit("goto", ""); // emit goto for false case
+            $$->trueList = makelist(nextinstr()); 
+            $$->falseList = makelist(nextinstr()+1); 
+            quadTable.emit(">", "", $1->addr->name, $3->addr->name); 
+            quadTable.emit("goto", ""); 
         }
         else {
             yyerror("Type mismatch");
@@ -369,12 +348,12 @@ relational_expression:
     }
     | relational_expression REL_LTE shift_expression  { 
       if (typecheck($1->addr, $3->addr)) {
-            $$ = new EXPR();
+            $$ = new E();
             $$->exprType = "bool";   
-            $$->true_list = makelist(next_instruction()); // make truelist
-            $$->false_list = makelist(next_instruction()+1); // make falselist
-            quad_table.emit("<=", "", $1->addr->name, $3->addr->name); // emit goto for true case
-            quad_table.emit("goto", ""); // emit goto for false case
+            $$->trueList = makelist(nextinstr()); 
+            $$->falseList = makelist(nextinstr()+1); 
+            quadTable.emit("<=", "", $1->addr->name, $3->addr->name); 
+            quadTable.emit("goto", ""); 
         }
         else {
             yyerror("Type mismatch");
@@ -382,12 +361,12 @@ relational_expression:
     }
     | relational_expression REL_GTE shift_expression  { 
       if (typecheck($1->addr, $3->addr)) {
-            $$ = new EXPR();
+            $$ = new E();
             $$->exprType = "bool";   
-            $$->true_list = makelist(next_instruction()); // make truelist
-            $$->false_list = makelist(next_instruction()+1); // make falselist
-            quad_table.emit(">=", "", $1->addr->name, $3->addr->name); // emit goto for true case
-            quad_table.emit("goto", ""); // emit goto for false case
+            $$->trueList = makelist(nextinstr()); 
+            $$->falseList = makelist(nextinstr()+1); 
+            quadTable.emit(">=", "", $1->addr->name, $3->addr->name); 
+            quadTable.emit("goto", ""); 
         }
         else {
             yyerror("Type mismatch");
@@ -396,17 +375,17 @@ relational_expression:
     ;
 
 equality_expression:
-      relational_expression  { $$ = $1; }
+      relational_expression  { $$ = $1;}
     | equality_expression REL_EQ relational_expression { 
         if (typecheck($1->addr, $3->addr)) {
-              convBool2Int($1);
-              convBool2Int($3);
-              $$ = new EXPR();
+              convBoolToInt($1);
+              convBoolToInt($3);
+              $$ = new E();
               $$->exprType = "bool";   
-              $$->true_list = makelist(next_instruction()); // make truelist
-            $$->false_list = makelist(next_instruction()+1); // make falselist
-            quad_table.emit("==", "", $1->addr->name, $3->addr->name); // emit goto for true case
-            quad_table.emit("goto", ""); // emit goto for false case
+              $$->trueList = makelist(nextinstr()); 
+              $$->falseList = makelist(nextinstr()+1); 
+              quadTable.emit("==", "", $1->addr->name, $3->addr->name); 
+              quadTable.emit("goto", ""); 
           }
           else {
               yyerror("Type mismatch");
@@ -414,14 +393,14 @@ equality_expression:
     }
     | equality_expression REL_NEQ relational_expression { 
       if (typecheck($1->addr, $3->addr)) {
-            convBool2Int($1);
-            convBool2Int($3);
-            $$ = new EXPR();
+            convBoolToInt($1);
+            convBoolToInt($3);
+            $$ = new E();
             $$->exprType = "bool";   
-            $$->true_list = makelist(next_instruction()); // make truelist
-            $$->false_list = makelist(next_instruction()+1); // make falselist
-            quad_table.emit("!=", "", $1->addr->name, $3->addr->name); // emit goto for true case
-            quad_table.emit("goto", ""); // emit goto for false case
+            $$->trueList = makelist(nextinstr()); 
+            $$->falseList = makelist(nextinstr()+1); 
+            quadTable.emit("!=", "", $1->addr->name, $3->addr->name); 
+            quadTable.emit("goto", ""); 
         }
         else {
             yyerror("Type mismatch");
@@ -429,16 +408,16 @@ equality_expression:
     }
     ;
 
-AND_expression: // bitwise and
+AND_expression:
       equality_expression { $$ = $1;}
     | AND_expression BITWISE_AND equality_expression  { 
             if (typecheck($1->addr, $3->addr)) {
-                convBool2Int($1);
-                convBool2Int($3);
-                $$ = new EXPR();
+                convBoolToInt($1);
+                convBoolToInt($3);
+                $$ = new E();
                 $$->exprType = "not_bool"; 
                 $$->addr = symbol_table::gentemp(new symbol_type("int")); 
-                quad_table.emit("&", $$->addr->name, $1->addr->name, $3->addr->name); 
+                quadTable.emit("&", $$->addr->name, $1->addr->name, $3->addr->name); 
             }
             else {
                 yyerror("Type mismatch");
@@ -446,16 +425,16 @@ AND_expression: // bitwise and
     }
     ;
 
-exclusive_OR_expression: // bitwise xor
+exclusive_OR_expression:
       AND_expression  { $$ = $1; }
     | exclusive_OR_expression BITWISE_XOR AND_expression { 
       if (typecheck($1->addr, $3->addr)) {
-                convBool2Int($1);
-                convBool2Int($3);
-                $$ = new EXPR();
+                convBoolToInt($1);
+                convBoolToInt($3);
+                $$ = new E();
                 $$->exprType = "not_bool"; 
                 $$->addr = symbol_table::gentemp(new symbol_type("int")); 
-                quad_table.emit("^", $$->addr->name, $1->addr->name, $3->addr->name); 
+                quadTable.emit("^", $$->addr->name, $1->addr->name, $3->addr->name); 
             }
             else {
                 yyerror("Type mismatch");
@@ -463,67 +442,66 @@ exclusive_OR_expression: // bitwise xor
     }
     ;
 
-inclusive_OR_expression: // bitwise or
+inclusive_OR_expression:
       exclusive_OR_expression  { $$ = $1;}
     | inclusive_OR_expression BITWISE_OR exclusive_OR_expression  { 
       if (typecheck($1->addr, $3->addr)) {
-                convBool2Int($1);
-                convBool2Int($3);
-                $$ = new EXPR();
+                convBoolToInt($1);
+                convBoolToInt($3);
+                $$ = new E();
                 $$->exprType = "not_bool"; 
                 $$->addr = symbol_table::gentemp(new symbol_type("int")); 
-                quad_table.emit("|", $$->addr->name, $1->addr->name, $3->addr->name); 
+                quadTable.emit("|", $$->addr->name, $1->addr->name, $3->addr->name); 
             }
             else {
                 yyerror("Type mismatch");
             }
     }
     ;
-logical_AND_expression: // logical and
+logical_AND_expression:
       inclusive_OR_expression                                       { $$ = $1; }
     | logical_AND_expression LOGICAL_AND M inclusive_OR_expression    { 
-            convInt2Bool($1);
-            convInt2Bool($4);
-            $$ = new EXPR();
+            convIntToBool($1);
+            convIntToBool($4);
+            $$ = new E();
             $$->exprType = "bool";   
-            backpatch($1->true_list, $3); 
-            $$->true_list = $4->true_list; 
-            $$->false_list = merge($1->false_list, $4->false_list); // merge false lists
+            backpatch($1->trueList, $3); 
+            $$->trueList = $4->trueList; 
+            $$->falseList = merge($1->falseList, $4->falseList); 
     }
     ;
 
 logical_OR_expression:
       logical_AND_expression   { $$ = $1; }
     | logical_OR_expression LOGICAL_OR M logical_AND_expression { 
-          convInt2Bool($1);
-          convInt2Bool($4);
-          $$ = new EXPR();
+          convIntToBool($1);
+          convIntToBool($4);
+          $$ = new E();
           $$->exprType = "bool";   
-          backpatch($1->false_list, $3); 
-          $$->false_list = $4->false_list; 
-          $$->true_list = merge($1->true_list, $4->true_list);  // merge true lists
+          backpatch($1->falseList, $3); 
+          $$->falseList = $4->falseList; 
+          $$->trueList = merge($1->trueList, $4->trueList); 
     }
     ;
 
 conditional_expression:
       logical_OR_expression                                                             { $$ = $1; }
-    | logical_OR_expression N TERNARY_QM M expression N TERNARY_SEP M conditional_expression {  
-        
+    | logical_OR_expression N TERNARY_QM M expression N TERNARY_SEP M conditional_expression {  /// learn about this
             $$->addr = symbol_table::gentemp($5->addr->type); 
             $$->addr->update($5->addr->type);
-            quad_table.emit("=", $$->addr->name, $9->addr->name);
-            instruction_list* templist1 = makelist(next_instruction());
-            quad_table.emit("goto", "");   
-            backpatch($6->next_list, next_instruction());   
-            quad_table.emit("=", $$->addr->name, $5->addr->name); 
-            instruction_list* templist2 = makelist(next_instruction());
+            quadTable.emit("=", $$->addr->name, $9->addr->name);
+            instruction_list* templist1 = makelist(nextinstr());
+            quadTable.emit("goto", "");   
+            backpatch($6->nextList, nextinstr());   
+            quadTable.emit("=", $$->addr->name, $5->addr->name); 
+            instruction_list* templist2 = makelist(nextinstr());
             templist1 = merge(templist1, templist2);
-            quad_table.emit("goto", "");   
-            backpatch($2->next_list, next_instruction());   
-            convInt2Bool($1);
-            backpatch($1->true_list, $4); 
-            backpatch($1->false_list, $8); 
-            backpatch(templist1, next_instruction());
+            quadTable.emit("goto", "");   
+            backpatch($2->nextList, nextinstr());   
+            convIntToBool($1);
+            backpatch($1->trueList, $4); 
+            backpatch($1->falseList, $8); 
+            backpatch(templist1, nextinstr());
         }
     ;
 
@@ -532,12 +510,12 @@ assignment_expression:
     | unary_expression assignment_operator assignment_expression                        { 
             if ($1->sub_type == "arr") { 
                 $3->addr = convType($3->addr, $1->type->base);
-                quad_table.emit("[]=", $1->location->name, $1->addr->name, $3->addr->name); 
+                quadTable.emit("[]=", $1->location->name, $1->addr->name, $3->addr->name); 
             }
-            else if ($1->sub_type == "ptr") quad_table.emit("*=", $1->location->name, $3->addr->name); 
+            else if ($1->sub_type == "ptr") quadTable.emit("*=", $1->location->name, $3->addr->name); 
             else {
                 $3->addr = convType($3->addr, $1->location->type->base);
-                quad_table.emit("=", $1->location->name, $3->addr->name); 
+                quadTable.emit("=", $1->location->name, $3->addr->name); 
             }
             $$ = $3;
     }
@@ -593,8 +571,8 @@ init_declarator_list:
 init_declarator:
      declarator                                                     { $$ = $1; }
     | declarator ASS_EQ initializer                                 { 
-          if ($3->initial_value != "") $1->initial_value = $3->initial_value;
-          quad_table.emit("=", $1->name, $3->name);
+          if ($3->initValue != "") $1->initValue = $3->initValue;
+          quadTable.emit("=", $1->name, $3->name);
     }
     ;
 
@@ -653,7 +631,7 @@ declarator:
 direct_declarator:
       IDENTIFIER                                                                        { 
                 $$ = $1->update(new symbol_type(data_type));   
-                current_symbol = $1; 
+                currentSymbol = $1; 
       }
     | LP declarator RP                                                                  {  $$ = $2; }
     | direct_declarator LBP type_qualifier_list assignment_expression RBP               { }
@@ -666,12 +644,12 @@ direct_declarator:
             t = t->sub_type;
         }
         if (prev == NULL) {
-            int temp = atoi($3->addr->initial_value.c_str());   
+            int temp = atoi($3->addr->initValue.c_str());   
             symbol_type* tp = new symbol_type("arr", $1->type, temp);  
             $$ = $1->update(tp);    
         }
         else {
-            int temp = atoi($3->addr->initial_value.c_str());   
+            int temp = atoi($3->addr->initValue.c_str());   
             prev->sub_type = new symbol_type("arr", t, temp); 
             $$ = $1->update($1->type);  
         }
@@ -698,27 +676,27 @@ direct_declarator:
     | direct_declarator LBP type_qualifier_list STAR RBP                            { /* Will not required*/ }
     | direct_declarator LBP STAR RBP                            { /* Will not required*/ }
     | direct_declarator LP change_table parameter_type_list RP                                       { 
-        current_symbol_table->name = $1->name; 
+        currentSymbolTable->name = $1->name; 
         if ($1->type->base != "void") {
-            symbol* s = current_symbol_table->lookup("return");  
+            symbol* s = currentSymbolTable->lookup("return");  
             s->update($1->type);    
         }
-        $1->nested_table = current_symbol_table;   
-        current_symbol_table->parent = global_symbol_table;   
-        switchTable(global_symbol_table);  
-        current_symbol = $$; 
+        $1->nestedTable = currentSymbolTable;   
+        currentSymbolTable->parent = globalSymbolTable;   
+        switchTable(globalSymbolTable);  
+        currentSymbol = $$; 
     }
     | direct_declarator LP identifier_list RP                                       { }
     | direct_declarator LP change_table RP {
-        current_symbol_table->name = $1->name; 
+        currentSymbolTable->name = $1->name; 
         if ($1->type->base != "void") {
-            symbol* s = current_symbol_table->lookup("return");  
+            symbol* s = currentSymbolTable->lookup("return");  
             s->update($1->type);    
         }
-        $1->nested_table = current_symbol_table;    
-        current_symbol_table->parent = global_symbol_table;   
-        switchTable(global_symbol_table);  
-        current_symbol = $$;
+        $1->nestedTable = currentSymbolTable;    
+        currentSymbolTable->parent = globalSymbolTable;   
+        switchTable(globalSymbolTable);  
+        currentSymbol = $$;
     }
     ;
 
@@ -799,7 +777,7 @@ statement   : labeled_statement {}
             | compound_statement { $$ = $1; }
             | expression_statement {
                 $$ = new S();
-                $$->next_list = $1->next_list;
+                $$->nextList = $1->nextList;
             }
             | selection_statement { $$ = $1; }
             | iteration_statement { $$ = $1; }
@@ -810,7 +788,7 @@ statement   : labeled_statement {}
 loop_statement: labeled_statement {}
             | expression_statement {
                 $$ = new S();
-                $$->next_list = $1->next_list;
+                $$->nextList = $1->nextList;
             }
             | selection_statement { $$ = $1; }
             | iteration_statement { $$ = $1; }
@@ -825,7 +803,7 @@ labeled_statement:
 compound_statement:
       LCP X change_table block_item_list_opt RCP                                       { 
         $$ = $4;
-        switchTable(current_symbol_table->parent);
+        switchTable(currentSymbolTable->parent);
       }
     ;
 
@@ -833,7 +811,7 @@ block_item_list:
       block_item { $$ = $1; }
     | block_item_list M block_item { 
           $$ = $3;
-          backpatch($1->next_list, $2);    
+          backpatch($1->nextList, $2);    
     }
     ;
 
@@ -848,106 +826,108 @@ block_item:
     ;
 
 expression_statement    : expression SEMICOLON { $$ = $1; }
-                        | SEMICOLON { $$ = new EXPR(); }
+                        | SEMICOLON { $$ = new E(); }
                         ;
 
 selection_statement:
-      IF I LP expression RP M statement N { 
-        convInt2Bool($4);
-        $$ = new S();
-        backpatch($4->true_list, $6); 
-        instruction_list* temp = merge($4->false_list, $7->next_list);
-        $$->next_list = merge($8->next_list, temp); 
+      IF LP expression N RP M statement N { 
+          backpatch($4->nextList, nextinstr());
+          convIntToBool($3);
+          $$ = new S();
+          backpatch($3->trueList, $6); 
+          instruction_list* temp = merge($3->falseList, $7->nextList);
+          $$->nextList = merge($8->nextList, temp); 
       }
-    | IF I LP expression RP M statement N ELSE E M statement { 
-        convInt2Bool($4);
-        $$ = new S();
-        backpatch($4->true_list, $6); 
-        backpatch($4->false_list, $11); 
-        instruction_list* temp = merge($7->next_list, $8->next_list); 
-        $$->next_list = merge($12->next_list, temp); 
+    | IF LP expression N RP M statement N ELSE M statement                      { 
+            backpatch($4->nextList, nextinstr()); 
+            convIntToBool($3);
+            $$ = new S();
+            backpatch($3->trueList, $6); 
+            backpatch($3->falseList, $10); 
+            instruction_list* temp = merge($7->nextList, $8->nextList); 
+            $$->nextList = merge($11->nextList, temp); 
     }
     | SWITCH LP expression RP statement                                 { /*Not Required*/}
     ;
 
 iteration_statement : WHILE W LP X change_table M expression RP M loop_statement { 
                         $$ = new S(); 
-                        convInt2Bool($7);
-                        backpatch($10->next_list, $6);   
-                        backpatch($7->true_list, $9);    
-                        $$->next_list = $7->false_list; 
-                        quad_table.emit("goto", convInt2Str($6)); 
-                        block_name = "";
-                        switchTable(current_symbol_table->parent);
+                        convIntToBool($7);
+                        backpatch($10->nextList, $6);   
+                        backpatch($7->trueList, $9);    
+                        $$->nextList = $7->falseList; 
+                        quadTable.emit("goto", convIntToStr($6)); 
+                        blockName = "";
+                        switchTable(currentSymbolTable->parent);
                     }
                     | WHILE W LP X change_table M expression RP LCP M block_item_list_opt RCP { 
                         $$ = new S(); // new statement
-                        convInt2Bool($7);
-                        backpatch($11->next_list, $6);   
-                        backpatch($7->true_list, $10);   
-                        $$->next_list = $7->false_list;  
-                        quad_table.emit("goto", convInt2Str($6)); 
-                        block_name = "";
-                        switchTable(current_symbol_table->parent);
+                        convIntToBool($7);
+                        backpatch($11->nextList, $6);   
+                        backpatch($7->trueList, $10);   
+                        $$->nextList = $7->falseList;  
+                        quadTable.emit("goto", convIntToStr($6)); 
+                        blockName = "";
+                        switchTable(currentSymbolTable->parent);
                     }
                     | DO D M loop_statement M WHILE LP expression RP SEMICOLON {   
                         $$ = new S();
-                        convInt2Bool($8);
-                        backpatch($8->true_list, $3);   
-                        backpatch($4->next_list, $5);   
-                        $$->next_list = $8->false_list;  
-                        block_name = "";
+                        convIntToBool($8);
+                        backpatch($8->trueList, $3);   
+                        backpatch($4->nextList, $5);   
+                        $$->nextList = $8->falseList;  
+                        blockName = "";
                     }
                     | DO D LCP M block_item_list_opt RCP M WHILE LP expression RP SEMICOLON {  
                         $$ = new S();
-                        convInt2Bool($10);
-                        backpatch($10->true_list, $4);    
-                        backpatch($5->next_list, $7);    
-                        $$->next_list = $10->false_list;  
-                        block_name = "";
+                        convIntToBool($10);
+                        backpatch($10->trueList, $4);    
+                        backpatch($5->nextList, $7);    
+                        $$->nextList = $10->falseList;  
+                        blockName = "";
                     }
                     | FOR F LP X change_table declaration M expression_statement M expression N RP M loop_statement {  
-                        convInt2Bool($8);
-                        backpatch($8->true_list, $13); 
-                        backpatch($11->next_list, $7); 
-                        backpatch($14->next_list, $9);
-                        quad_table.emit("goto", convInt2Str($9));
-                        $$->next_list = $8->false_list;  
-                        block_name = "";
-                        switchTable(current_symbol_table->parent);
+                        convIntToBool($8);
+                        backpatch($8->trueList, $13); 
+                        backpatch($11->nextList, $7); 
+                        backpatch($14->nextList, $9);
+                        quadTable.emit("goto", convIntToStr($9));
+                        $$->nextList = $8->falseList;  
+                        blockName = "";
+                        switchTable(currentSymbolTable->parent);
                     }
                     | FOR F LP X change_table expression_statement M expression_statement M expression N RP M loop_statement {  
                         $$ = new S();
-                        convInt2Bool($8);
-                        backpatch($8->true_list, $13); 
-                        backpatch($11->next_list, $7); 
-                        backpatch($14->next_list, $9); 
-                        quad_table.emit("goto", convInt2Str($9)); 
-                        $$->next_list = $8->false_list; 
-                        block_name = "";
-                        switchTable(current_symbol_table->parent);
+                        convIntToBool($8);
+                        backpatch($8->trueList, $13); 
+                        backpatch($11->nextList, $7); 
+                        backpatch($14->nextList, $9); 
+                        quadTable.emit("goto", convIntToStr($9)); 
+                        $$->nextList = $8->falseList; 
+                        blockName = "";
+                        switchTable(currentSymbolTable->parent);
                     }
                     | FOR F LP X change_table declaration M expression_statement M expression N RP M LCP block_item_list_opt RCP {  
                         $$ = new S();
-                        convInt2Bool($8);
-                        backpatch($8->true_list, $13); 
-                        backpatch($11->next_list, $7); 
-                        backpatch($15->next_list, $9); 
-                        quad_table.emit("goto", convInt2Str($9)); 
-                        $$->next_list = $8->false_list;  
-                        block_name = "";
-                        switchTable(current_symbol_table->parent);
+                        convIntToBool($8);
+                        backpatch($8->trueList, $13); 
+                        backpatch($11->nextList, $7); 
+                        backpatch($15->nextList, $9); 
+                        quadTable.emit("goto", convIntToStr($9)); 
+                        $$->nextList = $8->falseList;  
+                        blockName = "";
+                        switchTable(currentSymbolTable->parent);
                     }
                     | FOR F LP X change_table expression_statement M expression_statement M expression N RP M LCP block_item_list_opt RCP { 
                         $$ = new S();
-                        convInt2Bool($8);
-                        backpatch($8->true_list, $13); 
-                        backpatch($11->next_list, $7); 
-                        backpatch($15->next_list, $9); 
-                        quad_table.emit("goto", convInt2Str($9)); 
-                        $$->next_list = $8->false_list;  
-                        block_name = "";
-                        switchTable(current_symbol_table->parent);
+                        convIntToBool($8);
+                        backpatch($8->trueList, $13); 
+                        backpatch($11->nextList, $7); 
+                        backpatch($15->nextList, $9); 
+                        quadTable.emit("goto", convIntToStr($9)); 
+                        $$->nextList = $8->falseList;  
+                        blockName = "";
+                        switchTable(currentSymbolTable->parent);
                     }
                     ;
 
@@ -956,44 +936,39 @@ jump_statement  : GOTO IDENTIFIER SEMICOLON {}
                 | BREAK SEMICOLON { $$ = new S(); }
                 | RETURN expression SEMICOLON {
                     $$ = new S();
-                    quad_table.emit("return", $2->addr->name);
+                    quadTable.emit("return", $2->addr->name);
                 }
                 | RETURN SEMICOLON {
                     $$ = new S();
-                    quad_table.emit("return", ""); 
+                    quadTable.emit("return", ""); 
                 }
                 ;
 
-M:  { $$ = next_instruction(); } 
+M:  { $$ = nextinstr(); } 
 
-N:  { $$ = new S(); $$->next_list = makelist(next_instruction()); quad_table.emit("goto", ""); } 
+N:  { $$ = new S(); $$->nextList = makelist(nextinstr()); quadTable.emit("goto", ""); } 
 
-F   :  { block_name = "FOR"; }
+F   :  { blockName = "FOR"; }
     ;
-W   :  { block_name = "WHILE"; }
+W   :  { blockName = "WHILE"; }
     ;
-D   :  { block_name = "DO"; }
-    ;
-I   :  { block_name = "IF"; }
-    ;
-E   :  { block_name = "ELSE"; }
+D   :  { blockName = "DO"; }
     ;
 X   :  { 
-        string newSymbolTableName = current_symbol_table->name + "." + block_name + "$" + to_string(symbol_table_cnt++); 
-        symbol* symbolFound = current_symbol_table->lookup(newSymbolTableName); 
-        symbolFound->nested_table = new symbol_table(newSymbolTableName); 
+        string newSymbolTableName = currentSymbolTable->name + "." + blockName + "$" + to_string(SymbolTableCount++); 
+        symbol* symbolFound = currentSymbolTable->lookup(newSymbolTableName); 
+        symbolFound->nestedTable = new symbol_table(newSymbolTableName); 
         symbolFound->name = newSymbolTableName; 
-        symbolFound->nested_table->parent = current_symbol_table;
+        symbolFound->nestedTable->parent = currentSymbolTable;
         symbolFound->type = new symbol_type("block");
-        current_symbol = symbolFound;
-        block_name = ""; 
+        currentSymbol = symbolFound; 
     }
     ;
 
 change_table    :  {
-                    if (current_symbol->nested_table != NULL) {
-                        switchTable(current_symbol->nested_table); 
-                        quad_table.emit("label", current_symbol_table->name);
+                    if (currentSymbol->nestedTable != NULL) {
+                        switchTable(currentSymbol->nestedTable); 
+                        quadTable.emit("label", currentSymbolTable->name);
                     }
                     else {
                         switchTable(new symbol_table(""));
@@ -1012,9 +987,9 @@ external_declaration    : function_definition {}
                         ;
 
 function_definition : declaration_specifiers declarator declaration_list_opt change_table LCP block_item_list_opt RCP {
-                        current_symbol_table->parent = global_symbol_table;
-                        symbol_table_cnt = 0;
-                        switchTable(global_symbol_table);  
+                        currentSymbolTable->parent = globalSymbolTable;
+                        SymbolTableCount = 0;
+                        switchTable(globalSymbolTable);  
                     }
                     ;
 

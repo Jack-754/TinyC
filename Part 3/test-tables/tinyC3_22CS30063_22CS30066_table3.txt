@@ -1,0 +1,78 @@
+Symbol Table: Global                                            Parent Table: NULL                                              
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+pi                       float                    3.14159265          8              0              NULL
+t0                       float                    3.14159265          8              8              NULL
+grade                    char                     'A'                 1              16             NULL
+number1                  int                      -                   4              17             NULL
+number2                  int                      -                   4              21             NULL
+result1                  int                      -                   4              25             NULL
+result2                  int                      -                   4              29             NULL
+quotient                 int                      -                   4              33             NULL
+remainder                int                      -                   4              37             NULL
+myArray                  arr(5, int)              -                   20             41             NULL
+t1                       int                      5                   4              61             NULL
+matrix                   arr(3, arr(3, float))    -                   72             65             NULL
+t2                       int                      3                   4              137            NULL
+t3                       int                      3                   4              141            NULL
+age                      int                      30                  4              145            NULL
+t4                       int                      30                  4              149            NULL
+ptr                      ptr(int)                 -                   4              153            NULL
+temperature              int                      -                   4              157            NULL
+printMessage             void                     -                   0              161            printMessage
+main                     int                      -                   4              161            main
+
+
+
+Symbol Table: printMessage                                      Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+num                      int                      -                   4              0              NULL
+val                      float                    -                   8              4              NULL
+t0                       int                      42                  4              12             NULL
+t1                       int                      -                   4              16             NULL
+t2                       float                    -                   8              20             NULL
+t3                       float                    -                   8              28             NULL
+
+
+
+Symbol Table: main                                              Parent Table: Global                                            
+
+Name                     Type                     Initial Value       Size           Offset         Nested
+------------------------------------------------------------------------------------------------------------------------
+return                   int                      -                   4              0              NULL
+apples                   int                      10                  4              4              NULL
+t0                       int                      10                  4              8              NULL
+bananas                  int                      3                   4              12             NULL
+t1                       int                      3                   4              16             NULL
+initial                  char                     'M'                 1              20             NULL
+t2                       char                     'M'                 1              21             NULL
+t3                       char                     'A'                 1              22             NULL
+t4                       int                      -                   4              23             NULL
+t5                       int                      -                   4              27             NULL
+t6                       int                      -                   4              31             NULL
+t7                       int                      -                   4              35             NULL
+t8                       int                      -                   4              39             NULL
+t9                       int                      -                   4              43             NULL
+t10                      int                      -                   4              47             NULL
+t11                      int                      -                   4              51             NULL
+t12                      int                      -                   4              55             NULL
+t13                      int                      -                   4              59             NULL
+t14                      int                      -                   4              63             NULL
+t15                      int                      -                   4              67             NULL
+t16                      char                     'B'                 1              71             NULL
+t17                      int                      -                   4              72             NULL
+t18                      char                     -                   1              76             NULL
+t19                      int                      2                   4              77             NULL
+t20                      int                      -                   4              81             NULL
+t21                      int                      -                   4              85             NULL
+t22                      int                      1                   4              89             NULL
+t23                      int                      -                   4              93             NULL
+t24                      int                      -                   4              97             NULL
+t25                      void                     -                   0              101            NULL
+t26                      int                      0                   4              101            NULL
+
+
+
